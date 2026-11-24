@@ -600,9 +600,11 @@ const ICON = {
    Gezählt werden nur Aufrufe und Spielstarts, keine Namen, Fotos oder Spielstände.
    ===================================================================== */
 const COUNTER = "https://trinkwuerfel.goatcounter.com/count";
-const counting = !inSandbox && /github\.io$/.test(location.hostname);
+/* Zähler nur auf der Hauptadresse /sixcup/ (nie in Archiv-Ordnern wie /sixcup/v3.1/), immer als "/sixcup" gezählt */
+const counting = !inSandbox && /github\.io$/.test(location.hostname) && /^\/sixcup\/(index\.html)?$/.test(location.pathname);
 if (counting){
   try {
+    window.goatcounter = Object.assign(window.goatcounter || {}, { path:"/sixcup" });
     const sc = document.createElement("script");
     sc.async = true; sc.src = "https://gc.zgo.at/count.js"; sc.dataset.goatcounter = COUNTER;
     document.head.appendChild(sc);
