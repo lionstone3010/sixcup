@@ -1,4 +1,4 @@
-<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f2f3f5"><meta name="description" content="SixCup: das Trinkspiel mit 6 Gläsern und einem Würfel, direkt im Handy-Browser."><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="SixCup"><meta name="application-name" content="SixCup"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png"><style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#f2f3f5"><meta name="description" content="SixCup: das Partyspiel mit 6 Bechern und einem Würfel, direkt im Handy-Browser."><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="SixCup"><meta name="application-name" content="SixCup"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png"><style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
 <title>SixCup</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -82,6 +82,8 @@ button{cursor:pointer;border:0;background:none;padding:0}
 .g .base{fill:var(--fg);transition:fill .5s}
 .g .liq{fill:var(--drink);transform-box:fill-box;transform-origin:50% 100%;transform:scaleY(0);transition:transform .7s cubic-bezier(.25,1.5,.45,1)}
 .g .liq2{fill:var(--drink-deep);opacity:.5;transform-box:fill-box;transform-origin:50% 100%;transform:scaleY(0);transition:transform .75s cubic-bezier(.25,1.5,.45,1) .05s}
+.g.t-shot .shape{stroke:#ffd23f;stroke-width:3.4}
+.g .star{fill:#ffe68a;stroke:#b07800;stroke-width:1.4;stroke-linejoin:round}
 .g .foam{fill:var(--foam);opacity:0;transition:opacity .3s .4s}
 .g .shine{stroke:rgba(255,255,255,.55);stroke-width:2.6;stroke-linecap:round;fill:none}
 .g.full .liq,.g.full .liq2{transform:scaleY(1)}
@@ -412,6 +414,108 @@ details.more[open] summary::after{transform:rotate(-135deg)}
 .mc .tag{font-size:9px;padding:2px 6px}
 .tour-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:0 16px}
 .tour-chips span{background:rgba(255,255,255,.18);border-radius:999px;padding:8px 14px;font-weight:800;font-size:15px}
+
+/* ===== Seiten: Start, Spielmodi, Eigenes Spiel, Anleitung, Rückblicke ===== */
+html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body.lock,body.lock .app{touch-action:none}
+body.lock .app.jscroll,body.lock .app.hscroll{touch-action:pan-y}
+.app.pg-home{
+  height:calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  height:calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  min-height:0;overflow:hidden;gap:clamp(10px,1.9dvh,18px);padding-block:clamp(8px,1.6dvh,16px) clamp(8px,1.4dvh,14px)
+}
+.app.pg-home.hscroll{overflow-y:auto;height:auto;min-height:100%}
+.home-top{display:flex;justify-content:flex-end;margin-bottom:calc(-44px - clamp(10px,1.9dvh,18px));position:relative;z-index:2;pointer-events:none}
+.home-top .ib{pointer-events:auto;background:rgba(255,255,255,.14)}
+.home-top .ib svg{stroke:#fff}
+.pg-home .brand{flex-direction:column;gap:2px;padding:clamp(10px,2.2dvh,20px) 0 clamp(10px,1.8dvh,16px);margin:0}
+.pg-home .brand .logo{width:auto;height:clamp(120px,22dvh,200px);max-width:78%}
+.brand .claim{color:rgba(255,255,255,.88);font-weight:700;font-size:clamp(14px,2dvh,17px);letter-spacing:.01em}
+.pg-home .lineup{padding:0 4px}
+.pg-home .lineup .g svg{width:auto;height:clamp(34px,6.4dvh,60px);max-width:86%}
+.menu-list{display:flex;flex-direction:column;gap:clamp(8px,1.4dvh,12px)}
+.mrow{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;width:100%;box-sizing:border-box;text-align:left;
+  padding:clamp(12px,2dvh,18px) 18px;border-radius:22px;background:#fff;box-shadow:inset 0 0 0 1.5px var(--line);color:var(--ink)}
+.mrow svg{width:26px;height:26px;stroke:currentColor}
+.mrow>svg:last-child{width:20px;height:20px;opacity:.55}
+.mrow .mt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.mrow b{font-family:var(--display);font-weight:800;font-size:clamp(19px,2.9dvh,24px);letter-spacing:-.01em;line-height:1.05}
+.mrow small{font-size:14px;color:var(--ink-soft);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mrow.primary{background:var(--pc);color:#fff;box-shadow:0 10px 24px rgba(43,80,232,.28)}
+.mrow.primary small{color:rgba(255,255,255,.85)}
+.mrow.primary>svg:last-child{opacity:.9}
+.mrow:active{transform:scale(.985)}
+.tabbar{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;border-top:1px solid var(--line);padding-top:clamp(8px,1.4dvh,12px)}
+.tabbar button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 0;font-weight:700;font-size:14px;color:var(--ink)}
+.tabbar svg{width:26px;height:26px;stroke:currentColor}
+.home-foot{margin-top:auto;display:flex;flex-direction:column;gap:6px}
+.home-foot .credit{padding-top:0;margin:0 auto}
+.home-foot .privacy{margin:0 auto}
+.app.pg-home.hs1 .lineup{display:none}
+.app.pg-home.hs2 .home-foot .privacy{display:none}
+.app.pg-home.hs2 .mrow{padding:10px 16px}
+.app.pg-home.hs2 .mrow b{font-size:19px}
+.app.pg-home.hs2 .pg-home .brand .logo,.app.pg-home.hs2 .brand .logo{height:clamp(96px,16dvh,150px)}
+.app.pg-home.hs3 .brand .claim{display:none}
+.app.pg-home.hs3 .brand .logo{height:clamp(80px,13dvh,120px)}
+.app.pg-home.hs3 .mrow small{font-size:13px}
+.app.pg-home.hs3 .home-foot{display:none}
+.app.pg-home.hs3 .tabbar button{flex-direction:row;justify-content:center;font-size:13px}
+.app.pg-home.hs3 .tabbar svg{width:20px;height:20px}
+.pg-top{display:flex;align-items:center;gap:12px}
+.pg-top h2{font-size:clamp(28px,8vw,36px)}
+.pg-top .ib svg{stroke:var(--ink)}
+.modes{display:flex;flex-direction:column;gap:12px}
+.mode{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;text-align:left;padding:20px 18px;border-radius:24px;background:#fff;box-shadow:inset 0 0 0 1.5px var(--line);color:var(--ink)}
+.mode .mic{width:52px;height:52px;border-radius:16px;background:var(--ink);color:#fff;display:grid;place-items:center}
+.mode .mic svg{width:28px;height:28px;stroke:#fff}
+.mode b{font-family:var(--display);font-weight:800;font-size:24px;display:block}
+.mode small{font-size:14px;color:var(--ink-soft);font-weight:600}
+.mode>svg{width:20px;height:20px;stroke:currentColor;opacity:.55}
+.ready{display:flex;flex-direction:column;gap:14px}
+.ready .rhead{display:flex;flex-direction:column;gap:2px}
+.ready .rhead b{font-family:var(--display);font-size:26px}
+.ready .rhead .soft{font-size:14px}
+.ropt{display:flex;flex-direction:column;gap:8px}
+.ropt .t{font-weight:800}
+.ropt .t small{display:block;font-weight:600;font-size:13px;color:var(--soft)}
+.ropt.row{flex-direction:row;align-items:center;justify-content:space-between;gap:12px}
+.ropt .d{font-size:13px;color:var(--soft);line-height:1.4}
+.ropt .d b{color:var(--ink)}
+.rows.plain .r{padding:10px 0}
+.rows.plain .nm small{white-space:normal;overflow:visible;font-size:13px;line-height:1.4}
+.rows.plain .nm{white-space:normal;overflow:visible;text-overflow:clip}
+.totals{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.totals div{background:#fff;border-radius:18px;padding:14px 10px;display:flex;flex-direction:column;align-items:center}
+.totals b{font-family:var(--display);font-size:28px;font-weight:800}
+.totals span{font-size:13px;color:var(--soft);font-weight:700}
+.warnbox{background:#fff4dd;border-radius:18px;padding:14px;font-size:14px;line-height:1.45;display:flex;flex-direction:column;gap:10px}
+.glist{display:flex;flex-direction:column;gap:10px}
+.gitem{display:flex;flex-direction:column;gap:8px;text-align:left;background:#fff;border-radius:20px;padding:14px 16px;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.gitem .gtop{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.gitem .gtop b{font-weight:800}
+.tag.mtag{background:var(--ink);font-size:10px}
+.gitem .avs{display:flex}
+.gitem .avs .av{margin-right:-8px;box-shadow:0 0 0 2.5px #fff}
+.gitem .avs .more{margin-left:14px;font-weight:800;font-size:13px;color:var(--soft);align-self:center}
+.gitem .gsub{font-size:14px;color:var(--ink-soft);font-weight:600}
+.gallery.rg figure{cursor:pointer}
+.ph-load{display:block;aspect-ratio:3/4;background:#e9ebef}
+.btn.danger{color:#c4281a;box-shadow:inset 0 0 0 2px #f0c9c4}
+.btn.danger svg{width:20px;height:20px;stroke:currentColor}
+.viewer{position:fixed;inset:0;z-index:30;background:#000;color:#fff;display:flex;flex-direction:column;
+  padding:calc(10px + env(safe-area-inset-top, 0px)) 14px calc(14px + env(safe-area-inset-bottom, 0px));box-sizing:border-box;gap:10px;touch-action:none}
+.viewer .vtop{display:flex;justify-content:space-between;align-items:center;font-weight:800}
+.viewer .ib{background:rgba(255,255,255,.16)}
+.viewer .ib svg{stroke:#fff}
+.viewer .ib[disabled]{opacity:.3}
+.viewer .vimg{flex:1;min-height:0;display:grid;place-items:center}
+.viewer .vimg img{max-width:100%;max-height:100%;border-radius:16px;object-fit:contain;user-select:none;-webkit-user-drag:none}
+.viewer .vcap{display:flex;flex-direction:column;align-items:center;gap:2px}
+.viewer .vcap span{opacity:.75;font-size:14px}
+.viewer .vnav{display:flex;justify-content:center;gap:18px}
+.verdict .word.long{font-size:clamp(30px,10.5vw,58px)}
+.app.game .verdict .word.long{font-size:min(clamp(30px,6.6dvh,58px),10.5vw)}
 /* Ein-Screen-Layouts */
 html:has(body.lock), body.lock{overflow:hidden;overscroll-behavior:none}
 .app.game,.app.join,.app.peek{
@@ -524,38 +628,39 @@ html:has(body.lock), body.lock{overflow:hidden;overscroll-behavior:none}
 /* =====================================================================
    Konstanten & Helfer
    ===================================================================== */
-const TYPES = { glas:"Glas", shot:"Shot", bier:"Bier" };
+const TYPES = { glas:"Becher", shot:"Gold ×2", bier:"Tasse" };
+const TYPE_LONG = { glas:"Becher", shot:"goldener Becher", bier:"Tasse" };
 const FACES = {1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]};
 const PALETTE = ["#2b50e8","#e23d28","#0e8a5c","#7a35e8","#d0287a","#087f99","#c25a00","#3a3f9e"];
 const SHAPES = {
   glas:{ body:"M7 6 H57 L51 76 H13 Z", liq:[0,22,64,60], foam:null, extra:"", shine:"M15 16 L18 64" },
-  shot:{ body:"M17 34 H47 L44 72 H20 Z", liq:[0,42,64,34], foam:null, extra:'<rect class="base" x="18" y="71" width="28" height="6" rx="2"/>', shine:"M23 40 L24.5 62" },
-  bier:{ body:"M11 10 H45 V72 Q45 77 40 77 H16 Q11 77 11 72 Z", liq:[0,22,64,60], foam:[0,16,64,9], extra:'<path class="deco" d="M45 24 H52 Q58 24 58 30 V50 Q58 56 52 56 H45"/>', shine:"M18 20 V64" }
+  shot:{ body:"M7 6 H57 L51 76 H13 Z", liq:[0,22,64,60], foam:null, extra:'<polygon class="star" points="32.0,36.0 34.7,43.3 42.5,43.6 36.4,48.4 38.5,55.9 32.0,51.6 25.5,55.9 27.6,48.4 21.5,43.6 29.3,43.3"/>', shine:"M15 16 L18 64" },
+  bier:{ body:"M11 10 H45 V72 Q45 77 40 77 H16 Q11 77 11 72 Z", liq:[0,22,64,60], foam:null, extra:'<path class="deco" d="M45 24 H52 Q58 24 58 30 V50 Q58 56 52 56 H45"/>', shine:"M18 20 V64" }
 };
 const CARDS = {
-  sabotage:    { name:"Sabotage",    kind:"attack", text:"Ein leeres Glas deiner Wahl wird sofort voll." },
-  tausch:      { name:"Tausch",      kind:"attack", text:"Zwei Gläser tauschen komplett den Platz." },
-  umleitung:   { name:"Umleitung",   kind:"attack", text:"Du bestimmst, wer das nächste volle Glas trinkt." },
-  barkeeper:   { name:"Barkeeper",   kind:"attack", text:"Du bestimmst jemanden, der sofort einen Kurzen trinkt." },
+  sabotage:    { name:"Sabotage",    kind:"attack", text:"Ein leerer Becher deiner Wahl wird sofort voll." },
+  tausch:      { name:"Tausch",      kind:"attack", text:"Zwei Becher tauschen komplett den Platz." },
+  umleitung:   { name:"Umleitung",   kind:"attack", text:"Du bestimmst, wer den nächsten vollen Becher trinkt." },
+  barkeeper:   { name:"Gastgeber",   kind:"attack", text:"Du bestimmst jemanden, der sofort einen Extra-Schluck trinkt." },
   glueckspilz: { name:"Glückspilz",  kind:"konter", text:"Wenn du trinken musst: Es fällt aus." },
   spiegel:     { name:"Spiegel",     kind:"konter", text:"Trifft dich jemand gezielt, geht es an den Absender zurück." },
   schutzengel: { name:"Schutzengel", kind:"konter", text:"Muss jemand anderes trinken, rettest du ihn." }
 };
 const ADDONS = [
-  ["full",     "Volles Haus", "Alle 6 Gläser voll: alle trinken einen Kurzen."],
-  ["doppel",   "Doppel",      "Du würfelst zweimal hintereinander dieselbe Zahl: Kurzer für dich."],
-  ["drilling", "Drilling",    "Nach einem Doppel würfelt die nächste Person dieselbe Zahl: Kurzer für sie."],
-  ["rache",    "Rache",       "Wer 3 Gläser am Stück trinkt, bestimmt, wer das nächste volle Glas übernimmt."],
-  ["joker",    "Joker",       "Jeder darf einmal pro Spiel ein volles Glas weitergeben."],
-  ["duell",    "Shot-Duell",  "Wer den Shot trinkt, bestimmt jemanden, der einen Kurzen mittrinkt."]
+  ["full",     "Volles Haus", "Alle 6 Becher voll: alle trinken einen Extra-Schluck."],
+  ["doppel",   "Doppel",      "Du würfelst zweimal hintereinander dieselbe Zahl: Extra-Schluck für dich."],
+  ["drilling", "Drilling",    "Nach einem Doppel würfelt die nächste Person dieselbe Zahl: Extra-Schluck für sie."],
+  ["rache",    "Rache",       "Wer 3 Becher am Stück trinkt, bestimmt, wer den nächsten vollen Becher übernimmt."],
+  ["joker",    "Joker",       "Jeder darf einmal pro Spiel einen vollen Becher weitergeben."],
+  ["duell",    "Gold-Duell",  "Wer den goldenen Becher trinkt, bestimmt jemanden, der einen Extra-Schluck mittrinkt."]
 ];
-const VIA = { doppel:"Doppel", drilling:"Drilling", duell:"Shot-Duell", barkeeper:"Barkeeper", joker:"Joker", rache:"Rache", umleitung:"Umleitung", spiegel:"Spiegel", full:"Volles Haus" };
-const ORDERS = { circle:["Im Kreis","Reihum, so wie ihr sitzt."], random:["Zufall","Jede Runde neu gemischt. Jeder kommt einmal pro Runde dran."], chaos:["Zufall · Chaos","Purer Zufall. Auch zweimal hintereinander möglich."] };
+const VIA = { doppel:"Doppel", drilling:"Drilling", duell:"Gold-Duell", barkeeper:"Gastgeber", joker:"Joker", rache:"Rache", umleitung:"Umleitung", spiegel:"Spiegel", full:"Volles Haus" };
+const ORDERS = { circle:["Im Kreis","Reihum, so wie ihr sitzt."], random:["Zufall","Jede Runde neu gemischt. Jeder kommt einmal pro Runde dran."], chaos:["Chaos","Purer Zufall. Auch zweimal hintereinander möglich."] };
 const DEF_SETTINGS = () => ({ order:"circle", ko:false, hearts:3, cards:true, addons:{ full:true, doppel:false, drilling:true, rache:false, joker:true, duell:false }, rules:[] });
-const RULE_TRIGS = { num:"Bei einer Zahl", shot:"Wenn jemand den Shot trinkt", streak3:"Bei 3 am Stück", full:"Bei Volles Haus", ko:"Wenn jemand K.O. ist", every10:"Alle 10 Würfe" };
+const RULE_TRIGS = { num:"Bei einer Zahl", shot:"Wenn jemand den goldenen Becher trinkt", streak3:"Bei 3 am Stück", full:"Bei Volles Haus", ko:"Wenn jemand K.O. ist", every10:"Alle 10 Würfe" };
 const RULE_IDEAS = [
   { trig:"num", n:3, text:"Alle stoßen an" },
-  { trig:"shot", text:"Wer den Shot trinkt, sucht das nächste Lied aus" },
+  { trig:"shot", text:"Wer den goldenen Becher trinkt, sucht das nächste Lied aus" },
   { trig:"every10", text:"Wasser-Runde: alle einmal Wasser" },
   { trig:"full", text:"Alle stehen auf" },
   { trig:"num", n:1, text:"Die Person links trinkt mit" },
@@ -649,7 +754,7 @@ function fresh(){
     players:[], glasses:JSON.parse(JSON.stringify(pr.config)), full:[false,false,false,false,false,false],
     turn:0, steps:[], after:null, redirect:null, rolls:[], chain:null, rollId:0, eventId:0, lastRoll:5, lastFill:null,
     history:[], proofs:[], handedFrom:null, bag:[], deck:[], peekQueue:[], peekReturn:"game",
-    rage:null, winners:null, spin:null, recapPending:false };
+    rage:null, winners:null, spin:null, recapPending:false, gameId:uid(), started:Date.now() };
 }
 let state = fresh();
 let photos = {};
@@ -663,22 +768,29 @@ function save(){ LS.set("tw_state", JSON.stringify(state)); }
 function savePrefs(){ LS.set("tw_prefs", JSON.stringify({ settings:state.settings, config:state.config })); }
 function savePhoto(id, data){
   photos[id] = data;
-  if (!LS.set("tw_ph_" + id, data) && !storageWarned){ storageWarned = true; toast("Handyspeicher voll: neue Fotos bleiben nur bis zum Neuladen."); }
+  idbPut("photos", id, data).then(ok => {
+    if (ok) return;
+    if (!LS.set("tw_ph_" + id, data) && !storageWarned){ storageWarned = true; toast("Handyspeicher voll: neue Fotos bleiben nur bis zum Neuladen."); }
+  });
 }
-function dropPhoto(id){ delete photos[id]; LS.del("tw_ph_" + id); }
+function dropPhoto(id){ if (!id) return; delete photos[id]; LS.del("tw_ph_" + id); idbDel("photos", id); }
 function photoIds(){
   const ids = state.players.map(p => p.photo).filter(Boolean);
   state.proofs.forEach(x => { ids.push(x.photo); (x.frames || []).forEach(f => ids.push(f)); });
   return ids;
 }
-function loadPhotos(){ photoIds().forEach(id => { if (!photos[id]){ const d = LS.get("tw_ph_" + id); if (d) photos[id] = d; } }); }
+async function loadPhotos(list){
+  const ids = (list || photoIds()).filter(id => id && !photos[id]); let got = false;
+  for (const id of ids){ let d = LS.get("tw_ph_" + id); if (!d) d = await idbGet("photos", id); if (d){ photos[id] = d; got = true; } }
+  return got;
+}
 function pushUndo(){ undoStack.push(JSON.stringify(state)); if (undoStack.length > 50) undoStack.shift(); }
 const emit = fx => { if (fx.type === "sound"){ sfx(fx.name); return; } fxQ.push(fx); };
 
 const P = id => state.players.find(p => p.id === id);
 const cur = () => state.players[state.turn];
 const active = () => state.players.filter(p => p.active);
-const tot = p => p.drinks + p.extras;
+const tot = p => p.drinks + p.shots + p.extras;   // goldener Becher zählt doppelt
 const colorOf = p => PALETTE[(p ? p.color : 0) % PALETTE.length];
 const others = id => active().filter(p => p.id !== id);
 function nextIndex(from){
@@ -687,7 +799,7 @@ function nextIndex(from){
   return -1;
 }
 const nobodyAfter = i => !state.players.slice(i + 1).some(p => p.active);
-const glassLabel = i => { const g = state.glasses[i]; return TYPES[g.type] + (g.content ? " · " + g.content : ""); };
+const glassLabel = i => { const g = state.glasses[i]; return TYPE_LONG[g.type] + (g.content ? " · " + g.content : ""); };
 function log(e){ state.history.push(Object.assign({ t:Date.now() }, e)); if (state.history.length > 400) state.history.shift(); }
 function rage(score, pid, text){ if (!state.rage || score >= state.rage.score) state.rage = { score, pid, text, t:Date.now() }; }
 
@@ -828,12 +940,12 @@ function eRoll(n){
   const fullCount = state.full.filter(Boolean).length;
   log({ kind:"roll", pid:p.id, roll:n });
   if (state.full[i]){
-    if (fullCount === 1){ p.nearLast++; rage(2, p.id, `${p.name}. Glas ${n}. Das einzige volle Glas auf dem Tisch.`); }
+    if (fullCount === 1){ p.nearLast++; rage(2, p.id, `${p.name}. Becher ${n}. Der einzige volle Becher auf dem Tisch.`); }
     const lf = state.lastFill;
     if (lf && lf.glass === i && lf.rollId === state.rollId - 1 && lf.pid !== p.id){
       p.nearRefill++;
       const f = P(lf.pid); const sec = Math.max(1, Math.round((Date.now() - lf.t) / 1000));
-      rage(lf.sabotage ? 4 : 3, p.id, `${p.name}. Glas ${n}. ${sec} Sekunden, nachdem ${f ? f.name : "jemand"} es ${lf.sabotage ? "sabotiert" : "gefüllt"} hat.`);
+      rage(lf.sabotage ? 4 : 3, p.id, `${p.name}. Becher ${n}. ${sec} Sekunden, nachdem ${f ? f.name : "jemand"} ihn ${lf.sabotage ? "sabotiert" : "gefüllt"} hat.`);
     }
     let who = p.id, from = null, via = null;
     const r = state.redirect;
@@ -852,7 +964,7 @@ function eRoll(n){
     state.chain = null;
     if (A.drilling){
       const by = P(ch.pid); const same = by && by.id === p.id;
-      const sub = same ? `Dreimal die ${n} von ${p.name}. Kurzer für ${p.name}.` : `${by ? by.name : "Jemand"} hatte die ${n} doppelt, jetzt ${p.name} auch. Kurzer für ${p.name}.`;
+      const sub = same ? `Dreimal die ${n} von ${p.name}. Extra-Schluck für ${p.name}.` : `${by ? by.name : "Jemand"} hatte die ${n} doppelt, jetzt ${p.name} auch. Extra-Schluck für ${p.name}.`;
       p.drillings++; state.steps.push({ t:"drink", who:p.id, kurz:true, via:"drilling", n, by:ch.pid, key:uid() });
       emit({ type:"banner", text:"Drilling!", sub, ms:2600 }); log({ kind:"drilling", pid:p.id, roll:n });
     }
@@ -860,7 +972,7 @@ function eRoll(n){
     state.chain = { n, pid:p.id, stage:2 };
     if (A.doppel){
       state.steps.push({ t:"drink", who:p.id, kurz:true, via:"doppel", n, key:uid() });
-      emit({ type:"banner", text:"Doppel!", sub:`${p.name} hat zweimal die ${n}. Kurzer für ${p.name}.`, ms:2600 }); log({ kind:"doppel", pid:p.id, roll:n });
+      emit({ type:"banner", text:"Doppel!", sub:`${p.name} hat zweimal die ${n}. Extra-Schluck für ${p.name}.`, ms:2600 }); log({ kind:"doppel", pid:p.id, roll:n });
     }
   } else state.chain = { n, pid:p.id, stage:1 };
   return true;
@@ -890,7 +1002,7 @@ function eConfirm(){
         const own = p && d.id === p.id && !s.from;
         if (own){
           p.streak++; p.best = Math.max(p.best, p.streak);
-          if (p.streak >= 4) rage(2 + p.streak, p.id, `${p.name}. ${p.streak} Gläser am Stück.`);
+          if (p.streak >= 4) rage(2 + p.streak, p.id, `${p.name}. ${p.streak} Becher am Stück.`);
           if (p.streak >= 3) emit({ type:"serie", pid:p.id, n:p.streak });
           if (p.streak === 3) houseRule("streak3");
         }
@@ -966,13 +1078,13 @@ function ePickPlayer(tid){
     case "rache": case "umleitung":
       state.redirect = { target:tid, from:s.by, src:s.purpose };
       log({ kind:"target", pid:s.by, target:tid, via:s.purpose });
-      emit({ type:"banner", text: s.purpose === "rache" ? "Rache!" : "Umleitung!", sub:`Das nächste volle Glas trinkt ${t.name}.` });
+      emit({ type:"banner", text: s.purpose === "rache" ? "Rache!" : "Umleitung!", sub:`Den nächsten vollen Becher trinkt ${t.name}.` });
       break;
     case "joker": {
       const d = state.steps[0];
       if (d && d.t === "drink"){ d.who = tid; d.from = s.by; d.via = "joker"; }
       log({ kind:"target", pid:s.by, target:tid, via:"joker" });
-      emit({ type:"banner", text:"Joker!", sub:`${by.name} gibt das Glas an ${t.name}.` });
+      emit({ type:"banner", text:"Joker!", sub:`${by.name} gibt den Becher an ${t.name}.` });
       break;
     }
     case "engel": {
@@ -1074,7 +1186,8 @@ function eRematch(){
     card:null, cardUsed:false, jokerUsed:false, konters:0, drillings:0, nearLast:0, nearRefill:0 }));
   state.deck = []; state.players.forEach(p => { p.card = dealCard(); });
   Object.assign(state, { glasses:JSON.parse(JSON.stringify(state.config)), full:[false,false,false,false,false,false], steps:[], after:null, redirect:null,
-    rolls:[], chain:null, history:[], proofs:[], rage:null, winners:null, lastFill:null, bag:[], joining:false, recapPending:false, handedFrom:null });
+    rolls:[], chain:null, history:[], proofs:[], rage:null, winners:null, lastFill:null, bag:[], joining:false, recapPending:false, handedFrom:null,
+    gameId:uid(), started:Date.now(), rollId:0 });
   undoStack = [];
   if (state.settings.order === "circle") state.turn = 0;
   else { const ni = pickRandom(null); state.turn = ni < 0 ? 0 : ni; state.spin = { id:state.players[state.turn].id, slow:false }; }
@@ -1155,7 +1268,7 @@ setInterval(() => {
   els.forEach(el => { const f = el.dataset.boom.split(","); const seq = BOOM.filter(k => k < f.length); const id = f[seq[boomTick % seq.length]]; if (photos[id] && el.getAttribute("src") !== photos[id]) el.src = photos[id]; });
 }, 120);
 
-/* ---- Gläser ---- */
+/* ---- Becher ---- */
 function glassSVG(i, type, opts){
   const s = SHAPES[type]; const id = "c" + i + (opts.mini ? "m" : "");
   const [x,y,w,h] = s.liq;
@@ -1198,13 +1311,19 @@ function setTheme(color){
 }
 function render(){
   if (headless) return;
-  app.className = "app " + state.phase;
-  document.body.classList.toggle("lock", ["game","join","peek"].includes(state.phase));
-  if (state.phase === "intro"){ setTheme(null); renderIntro(); if (!tourSeen && !LS.get("tw_tour")){ tourSeen = true; openTour(); } }
+  const pages = state.phase === "intro" || away;
+  app.className = "app " + (pages ? "pg pg-" + view : state.phase);
+  document.body.classList.toggle("lock", pages ? view === "home" : ["game","join","peek"].includes(state.phase));
+  if (pages){
+    setTheme(null); renderPage();
+    if (view === "home"){ fitHome(); if (!tourSeen && !LS.get("tw_tour")){ tourSeen = true; openTour(); } }
+    return;
+  }
+  if (state.phase === "intro"){ setTheme(null); renderPage(); }
   else if (state.phase === "join"){ setTheme(PALETTE[state.players.length % PALETTE.length]); renderJoin(); fitJoin(); }
   else if (state.phase === "peek"){ setTheme(colorOf(P(state.peekQueue[0]))); renderPeek(); }
   else if (state.phase === "game"){ setTheme(colorOf(cur())); renderGame(); fitStage(); }
-  else { setTheme(null); renderEnd(); }
+  else { setTheme(null); renderEnd(); saveRecap(); }
 }
 /* Eintragen: bei wenig Platz schrittweise verkleinern, notfalls scrollen statt abschneiden */
 function fitJoin(){
@@ -1227,24 +1346,119 @@ function fitStage(){
   if (over()){ app.classList.add("tight"); if (over()){ app.classList.add("tighter"); if (over()) app.classList.add("tightest"); } }
   app.classList.remove("measuring");
 }
-window.addEventListener("resize", () => { if (state.phase === "game" && !rolling) fitStage(); if (state.phase === "join") fitJoin(); });
+window.addEventListener("resize", () => {
+  if ((state.phase === "intro" || away) && view === "home"){ fitHome(); return; }
+  if (away) return;
+  if (state.phase === "game" && !rolling) fitStage(); if (state.phase === "join") fitJoin();
+});
 
 /* ---- Startbildschirm ---- */
 function sw(id, on, label){ return `<button class="switch" role="switch" aria-checked="${!!on}" aria-label="${esc(label)}" data-act="sw" data-k="${id}"></button>`; }
-function renderIntro(){
-  const S = state.settings;
-  const shots = state.config.filter(g => g.type === "shot").length;
+/* =====================================================================
+   Seiten außerhalb des Spiels: Start, Spielmodi, Eigenes Spiel, Anleitung, Rückblicke
+   ===================================================================== */
+let view = "home";      // home | modes | custom | guide | recaps | recap
+let viewArg = null;     // Spiel-ID beim Rückblick
+let away = false;       // true: laufendes Spiel verlassen, Startbildschirm offen
+const resumable = () => state.phase !== "intro" && state.players.length > 0;
+function go(v, arg){ view = v; viewArg = arg == null ? null : arg; closeSheet(); render(); window.scrollTo(0, 0); }
+const modeName = S => S.ko ? "K.O." : ({ circle:"Classic", random:"Zufall", chaos:"Chaos" }[S.order] || "Classic");
+const modeLine = S => modeName(S) + (S.ko ? " · " + S.hearts + " Herzen" : "") + (S.cards ? " · mit Karten" : "");
+const chev = svgI('<path d="M9 5l7 7-7 7"/>');
+const back = (to, label) => `<div class="pg-top"><button class="ib" data-act="go" data-v="${to}" aria-label="Zurück">${svgI('<path d="M15 5l-7 7 7 7"/>')}</button><h2>${label}</h2></div>`;
+const PI = {
+  play:  svgI('<circle cx="12" cy="12" r="9"/><path d="M10 8.5v7l6-3.5z"/>'),
+  resume:svgI('<path d="M5 12a7 7 0 1 0 2-5"/><path d="M5 4v4h4"/>'),
+  modes: svgI('<rect x="3" y="7" width="18" height="11" rx="4"/><path d="M8 11v3M6.5 12.5h3"/><circle cx="15.5" cy="11.5" r=".8"/><circle cx="17.5" cy="13.5" r=".8"/>'),
+  custom:svgI('<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>'),
+  guide: svgI('<path d="M4 5.5C6.5 4.5 9.5 4.5 12 6c2.5-1.5 5.5-1.5 8-.5V19c-2.5-1-5.5-1-8 .5-2.5-1.5-5.5-1.5-8-.5z"/><path d="M12 6v13.5"/>'),
+  recaps:svgI('<rect x="3" y="5" width="18" height="15" rx="3"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-5-8 9"/>'),
+  share: svgI('<circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="M8.2 10.8l7.6-4.1M8.2 13.2l7.6 4.1"/>'),
+  trash: svgI('<path d="M4 7h16M9 7V4.5h6V7M6.5 7l1 13h9l1-13"/>')
+};
+const cred = () => `<p class="credit"><svg viewBox="0 0 64 80" aria-hidden="true"><defs><clipPath id="cr"><path d="M9 8 H55 L49 76 H15 Z"/></clipPath></defs><rect clip-path="url(#cr)" x="0" y="40" width="64" height="40" fill="var(--drink)"/><path d="M9 8 H55 L49 76 H15 Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/></svg><span>created by</span><b>Lion</b></p>`;
+
+function renderPage(){
+  if (view === "modes") return renderModes();
+  if (view === "custom") return renderCustom();
+  if (view === "guide") return renderGuide();
+  if (view === "recaps") return renderRecaps();
+  if (view === "recap") return renderRecap(viewArg);
+  return renderHome();
+}
+
+/* ---- Startbildschirm ---- */
+function renderHome(){
+  const S = state.settings; const rs = resumable();
+  const ps = state.players.filter(p => p.active).map(p => p.name);
+  const resumeSub = state.phase === "end" ? "Endstand ansehen" : (ps.slice(0, 3).join(", ") + (ps.length > 3 ? " +" + (ps.length - 3) : "") + (state.rollId ? " · Wurf " + state.rollId : ""));
   app.innerHTML = `
   ${movedNote ? `<div class="moved" role="status"><div><b>Trinkwürfel heißt jetzt SixCup.</b> Gleiches Spiel, neuer Name. Für das neue Symbol einfach neu zum Home-Bildschirm hinzufügen.</div><button class="ib" data-act="moved-ok" aria-label="Hinweis schließen">${ICON.close}</button></div>` : ""}
-  <header class="hero">
-    <span class="eyebrow">Trinkspiel · 6 Gläser · 1 Würfel</span>
-    <div class="brand"><img class="logo" src="${LOGO_SRC}" alt="SixCup" width="720" height="602" decoding="async"></div>
-    <p>Leeres Glas: auffüllen. Volles Glas: austrinken und nochmal. Das Handy würfelt, zählt mit und geht reihum.</p>
-  </header>
+  <div class="home-top"><button class="ib snd" data-act="sound" aria-label="${SND.on ? "Ton aus" : "Ton an"}" aria-pressed="${SND.on}">${SND.on ? ICON.soundOn : ICON.soundOff}</button></div>
+  <div class="brand"><img class="logo" src="${LOGO_SRC}" alt="SixCup" width="720" height="602" decoding="async"><span class="claim">6 Becher. 1 Würfel.</span></div>
   <div class="lineup">${[0,1,2,3,4,5].map(i => glassHTML(i, "", true)).join("")}</div>
+  <nav class="menu-list" aria-label="Hauptmenü">
+    ${rs ? `<button class="mrow primary" data-act="resume-game">${PI.resume}<span class="mt"><b>Spiel fortsetzen</b><small>${esc(resumeSub)}</small></span>${chev}</button>` : ""}
+    <button class="mrow ${rs ? "" : "primary"}" data-act="start-join" ${rs ? 'data-confirm="Laufendes Spiel beenden? Nochmal tippen"' : ""}>${PI.play}<span class="mt"><b>Schnellstart</b><small>${esc(modeLine(S))}</small></span>${chev}</button>
+    <button class="mrow" data-act="go" data-v="modes">${PI.modes}<span class="mt"><b>Spielmodi</b><small>Classic, Zufall und K.O.</small></span>${chev}</button>
+    <button class="mrow" data-act="go" data-v="custom">${PI.custom}<span class="mt"><b>Eigenes Spiel</b><small>Becher, Karten, Add-ons, Hausregeln</small></span>${chev}</button>
+  </nav>
+  <div class="tabbar">
+    <button data-act="go" data-v="guide">${PI.guide}<span>Anleitung</span></button>
+    <button data-act="go" data-v="recaps">${PI.recaps}<span>Rückblicke</span></button>
+    ${canShareCard() ? `<button data-act="share-link">${PI.share}<span>Teilen</span></button>` : ""}
+  </div>
+  <div class="home-foot">${cred()}
+  ${counting ? `<p class="privacy">Zählt Aufrufe und Spielstarts anonym, ohne Cookies. Namen, Fotos und Spielstände bleiben auf deinem Handy.</p>` : ""}</div>`;
+}
+/* Start passt ohne Scrollen: erst Becherreihe weg, dann alles kompakter, im Notfall scrollen statt abschneiden */
+function fitHome(){
+  app.classList.remove("hs1", "hs2", "hs3", "hscroll");
+  const over = () => app.scrollHeight > app.clientHeight + 1;
+  if (over()){ app.classList.add("hs1"); if (over()){ app.classList.add("hs2"); if (over()){ app.classList.add("hs3"); if (over()) app.classList.add("hscroll"); } } }
+}
 
+/* ---- Spielmodi ---- */
+const MODES = [
+  ["classic", "Classic", "Reihum, so wie ihr sitzt. Das Original.", svgI('<path d="M20 12a8 8 0 1 1-2.4-5.7"/><path d="M20 4.5V9h-4.5"/>')],
+  ["zufall", "Zufall", "Das Handy lost aus, wer dran ist. Normal oder Chaos.", svgI('<path d="M3 7h3.5c4.5 0 5.5 10 10 10H20M17.5 4.5 20 7l-2.5 2.5M3 17h3.5c1.6 0 2.7-1.2 3.6-2.8M13.9 9.8C14.8 8.2 15.9 7 17.5 7"/><path d="M17.5 14.5 20 17l-2.5 2.5"/>')],
+  ["ko", "K.O.", "Jeder hat Herzen. Wer zuletzt übrig ist, gewinnt.", svgI('<path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.4a4.3 4.3 0 0 1 7.5 2.4C19.5 15.4 12 20 12 20z" fill="currentColor"/>')]
+];
+function renderModes(){
+  app.innerHTML = `${back("home", "Spielmodi")}
+  <div class="modes">${MODES.map(([k, n, d, ic]) => `<button class="mode" data-act="mode" data-k="${k}"><span class="mic">${ic}</span><span class="mt"><b>${n}</b><small>${d}</small></span>${chev}</button>`).join("")}</div>
+  <p class="note">Danach kannst du Karten und Add-ons an- oder ausschalten.</p>`;
+}
+let readyMode = "classic";
+function applyMode(k){
+  const S = state.settings;
+  if (k === "classic"){ S.ko = false; S.order = "circle"; }
+  else if (k === "zufall"){ S.ko = false; if (S.order === "circle") S.order = "random"; }
+  else if (k === "ko"){ S.ko = true; }
+  savePrefs(); save();
+}
+function readySheet(k){
+  readyMode = k; const S = state.settings;
+  const segBtns = (act, opts, curV) => `<div class="seg full" role="group">${opts.map(([v, l]) => `<button data-act="${act}" data-k="${v}" aria-pressed="${curV === v}">${l}</button>`).join("")}</div>`;
+  openSheet("Bereit?", `
+    <div class="ready">
+      <div class="rhead"><b>${esc(modeName(S))}</b><span class="soft">${k === "ko" ? "Jeder Becher kostet ein Herz, der goldene zwei, jeder Extra-Schluck eins." : (S.order === "chaos" ? ORDERS.chaos[1] : ORDERS[S.order][1])}</span></div>
+      ${k === "zufall" ? `<div class="ropt"><span class="t">Zufall</span>${segBtns("rd-order", [["random","Normal"],["chaos","Chaos"]], S.order)}<span class="d">${S.order === "chaos" ? "Purer Zufall, auch zweimal hintereinander möglich." : "Jede Runde neu gemischt, jeder kommt einmal dran."}</span></div>` : ""}
+      ${k === "ko" ? `<div class="ropt"><span class="t">Herzen</span>${segBtns("rd-hearts", [[3,"3"],[4,"4"],[5,"5"]], S.hearts)}</div>
+      <div class="ropt"><span class="t">Reihenfolge</span>${segBtns("rd-order", [["circle","Im Kreis"],["random","Zufall"],["chaos","Chaos"]], S.order)}</div>` : ""}
+      <div class="ropt row"><span class="t">Fähigkeitskarten<small>Etwa zwei Drittel bekommen eine geheime Karte.</small></span><button class="switch" role="switch" aria-checked="${!!S.cards}" aria-label="Fähigkeitskarten" data-act="rd-cards"></button></div>
+      <div class="ropt"><span class="t">Add-ons</span><div class="chips">${ADDONS.map(([a, n]) => `<button class="chip" data-act="rd-addon" data-k="${a}" aria-pressed="${!!S.addons[a]}">${n}</button>`).join("")}</div>
+        <span class="d">${ADDONS.filter(a => S.addons[a[0]]).map(a => `<b>${a[1]}:</b> ${a[2]}`).join("<br>") || "Keine Add-ons. Ganz klassisch."}</span></div>
+      <button class="btn" data-act="start-join" ${resumable() ? 'data-confirm="Laufendes Spiel beenden? Nochmal tippen"' : ""}>Los geht's</button>
+    </div>`);
+}
+
+/* ---- Eigenes Spiel: alle Einstellungen ---- */
+function renderCustom(){
+  const S = state.settings;
+  const gold = state.config.filter(g => g.type === "shot").length;
+  app.innerHTML = `${back("home", "Eigenes Spiel")}
   <section class="setup" aria-label="Spiel einstellen">
-    <span class="eyebrow">Spiel einstellen</span>
     <div class="opt">
       <span class="t">Reihenfolge</span><span></span>
       <div class="seg full" role="group" aria-label="Reihenfolge">
@@ -1254,7 +1468,7 @@ function renderIntro(){
     </div>
     <div class="opt">
       <span class="t">K.O.-Modus</span>${sw("ko", S.ko, "K.O.-Modus")}
-      <span class="d">Jedes Glas kostet ein Herz, der Shot zwei, jeder Extra-Kurze eins. Wer zuletzt übrig ist, gewinnt.</span>
+      <span class="d">Jeder Becher kostet ein Herz, der goldene zwei, jeder Extra-Schluck eins. Wer zuletzt übrig ist, gewinnt.</span>
       ${S.ko ? `<div class="seg full" role="group" aria-label="Herzen">${[3,4,5].map(h => `<button data-act="hearts" data-k="${h}" aria-pressed="${S.hearts === h}">${h} Herzen</button>`).join("")}</div>` : ""}
     </div>
     <div class="opt">
@@ -1266,12 +1480,21 @@ function renderIntro(){
       <span class="t">${n}</span>${sw("a_" + k, S.addons[k], n)}
       <span class="d">${d}</span>
     </div>`).join("")}
-    <div class="opt">
-      <span class="t">Sounds</span>${sw("sound", SND.on, "Sounds")}
-      <span class="d">Würfelklackern, Gluckern, Alarm und Fanfaren. Im Spiel oben über das Lautsprecher-Symbol umschaltbar.</span>
-    </div>
   </section>
-
+  <details class="more" id="glass-card">
+    <summary>Becher anpassen <span class="soft" style="font-weight:600;margin-left:auto;margin-right:14px;font-size:14px">${gold ? gold + " golden" : "kein goldener"}</span></summary>
+    <p class="d soft" style="font-size:14px;margin:8px 0 4px">Der goldene Becher zählt doppelt. Was in die Becher kommt, entscheidet ihr.</p>
+    <div class="section" style="margin-top:6px">
+      ${state.config.map((g,i) => `
+      <div class="grow">
+        <span class="num">${i + 1}</span>
+        <div class="seg" role="group" aria-label="Becher ${i + 1}">
+          ${Object.keys(TYPES).map(t => `<button data-act="gtype" data-i="${i}" data-t="${t}" aria-pressed="${g.type === t}">${TYPES[t]}</button>`).join("")}
+        </div>
+        <input class="field" id="gc-${i}" data-gc="${i}" maxlength="24" placeholder="Inhalt (optional), z. B. Cola" value="${esc(g.content)}">
+      </div>`).join("")}
+    </div>
+  </details>
   <section class="setup" aria-label="Hausregeln">
     <span class="eyebrow">Hausregeln</span>
     <p class="d soft" style="font-size:14px;margin-bottom:6px">Eure eigenen Regeln. Das Handy zeigt sie im richtigen Moment an, ihr setzt sie am Tisch um.</p>
@@ -1279,40 +1502,201 @@ function renderIntro(){
     <div class="rule-row"><div class="rule-txt"><span class="rule-trig">${esc(ruleLabel(r))}</span><span>${esc(r.text)}</span></div><button class="ib rule-del" data-act="rule-del" data-i="${i}" aria-label="Regel löschen">${ICON.close}</button></div>`).join("")}
     ${(S.rules || []).length < 8 ? `<button class="btn alt" style="margin-top:10px" data-act="rule-new">${ICON.plus} Hausregel hinzufügen</button>` : `<p class="note">Maximal 8 Hausregeln.</p>`}
   </section>
-
-  <div class="startbar"><button class="btn" data-act="start-join">Los geht's</button></div>
-  ${canShareCard() ? `<button class="btn alt" data-act="share-link">${ICON.share} Spiel mit Freunden teilen</button>` : ""}
-
-  <details class="more" id="glass-card">
-    <summary>Gläser anpassen <span class="soft" style="font-weight:600;margin-left:auto;margin-right:14px;font-size:14px">${6 - shots} Gläser, ${shots} Shot${shots === 1 ? "" : "s"}</span></summary>
-    <div class="section" style="margin-top:10px">
-      ${state.config.map((g,i) => `
-      <div class="grow">
-        <span class="num">${i + 1}</span>
-        <div class="seg" role="group" aria-label="Glas ${i + 1}">
-          ${Object.keys(TYPES).map(t => `<button data-act="gtype" data-i="${i}" data-t="${t}" aria-pressed="${g.type === t}">${TYPES[t]}</button>`).join("")}
-        </div>
-        <input class="field" id="gc-${i}" data-gc="${i}" maxlength="24" placeholder="Inhalt (optional), z. B. Vodka-E" value="${esc(g.content)}">
-      </div>`).join("")}
-    </div>
-  </details>
-  <details class="more">
-    <summary>Regeln und Karten</summary>
-    <ul class="rules">
-      <li>Alle 6 Gläser stehen am Anfang <b>leer</b> in der Mitte.</li>
-      <li>Leeres Glas gewürfelt: <b>auffüllen</b>, dann geht das Handy weiter.</li>
-      <li>Volles Glas gewürfelt: <b>austrinken</b> und sofort nochmal würfeln, bis ein leeres Glas kommt.</li>
-      <li><b>Karte spielen</b> geht im eigenen Zug, vor oder nach dem Würfeln. <b>Konter?</b> erscheint, sobald jemand trinken muss: tippen, dann auf das eigene Bild.</li>
-      <li>Muss jemand trinken: unten auf <b>Foto</b> tippen, dann nimmt das Handy einen kurzen Boomerang auf. Alle Fotos gibt's am Ende.</li>
-      <li>Wer nicht mehr mag, tippt unten auf sich und steigt aus. Im K.O.-Modus zählt das als K.O.</li>
-      <li>Wasser zwischendurch hilft. Und niemand muss.</li>
-    </ul>
-    <div class="cardlist">${Object.values(CARDS).map(c => `<div><span class="tag ${c.kind}">${c.kind === "attack" ? "Angriff" : "Konter"}</span><b>${c.name}</b><span>${c.text}</span></div>`).join("")}</div>
-    <button class="btn alt" style="margin-top:14px" data-act="tour">Einführung ansehen</button>
-  </details>
-  <p class="credit"><svg viewBox="0 0 64 80" aria-hidden="true"><defs><clipPath id="cr"><path d="M17 34 H47 L44 72 H20 Z"/></clipPath></defs><rect clip-path="url(#cr)" x="0" y="46" width="64" height="30" fill="var(--drink)"/><path d="M17 34 H47 L44 72 H20 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/></svg><span>created by</span><b>Lion</b></p>
-  ${counting ? `<p class="privacy">Diese Seite zählt Aufrufe und Spielstarts anonym mit GoatCounter, ohne Cookies. Namen, Fotos und Spielstände bleiben auf deinem Handy.</p>` : ""}`;
+  <div class="startbar"><button class="btn" data-act="start-join" ${resumable() ? 'data-confirm="Laufendes Spiel beenden? Nochmal tippen"' : ""}>Los geht's</button></div>`;
 }
+
+/* ---- Anleitung ---- */
+function renderGuide(){
+  app.innerHTML = `${back("home", "Anleitung")}
+  <section class="section">
+    <span class="eyebrow">So geht's</span>
+    <ul class="rules">
+      <li>Alle 6 Becher stehen am Anfang <b>leer</b> in der Mitte. Was reinkommt, entscheidet ihr: Wasser, Cola, Saft.</li>
+      <li>Das Handy geht reihum. Jeder trägt sich ein, macht ein Selfie und würfelt direkt los.</li>
+      <li>Leerer Becher gewürfelt: <b>auffüllen</b>, dann geht das Handy weiter.</li>
+      <li>Voller Becher gewürfelt: <b>austrinken</b> und sofort nochmal würfeln, bis ein leerer Becher kommt.</li>
+      <li>Der <b>goldene Becher</b> zählt doppelt.</li>
+      <li>Muss jemand trinken: unten auf <b>Foto</b> tippen, dann nimmt das Handy einen kurzen Boomerang auf. Alle Fotos findest du später in den Rückblicken.</li>
+      <li>Wer nicht mehr mag, tippt unten auf sich und steigt aus. Im K.O.-Modus zählt das als K.O.</li>
+      <li>Niemand muss. Pausen sind immer okay.</li>
+    </ul>
+  </section>
+  <section class="section">
+    <span class="eyebrow">Spielmodi</span>
+    <div class="rows plain">${MODES.map(m => `<div class="r"><span class="nm">${m[1]}<small>${m[2]}</small></span></div>`).join("")}</div>
+  </section>
+  <section class="section">
+    <span class="eyebrow">Fähigkeitskarten</span>
+    <p class="d soft" style="font-size:14px;margin-bottom:8px">Karte gedrückt halten zum Ansehen. Angriff: im eigenen Zug „Karte spielen“. Konter: „Konter?“ tippen, sobald jemand trinken muss, dann aufs eigene Bild.</p>
+    <div class="cardlist">${Object.values(CARDS).map(c => `<div><span class="tag ${c.kind}">${c.kind === "attack" ? "Angriff" : "Konter"}</span><b>${c.name}</b><span>${c.text}</span></div>`).join("")}</div>
+  </section>
+  <section class="section">
+    <span class="eyebrow">Add-ons</span>
+    <div class="rows plain">${ADDONS.map(a => `<div class="r"><span class="nm">${a[1]}<small>${a[2]}</small></span></div>`).join("")}</div>
+  </section>
+  <button class="btn alt" data-act="tour">Einführung ansehen</button>
+  ${cred()}`;
+}
+
+/* =====================================================================
+   Speicher: Fotos und Rückblicke in IndexedDB (viel Platz), sonst localStorage
+   ===================================================================== */
+const DB = { db:null };
+DB.ready = new Promise(res => {
+  try {
+    if (!window.indexedDB) return res(false);
+    const rq = indexedDB.open("sixcup", 1);
+    rq.onupgradeneeded = () => { const d = rq.result; ["photos","games"].forEach(n => { if (!d.objectStoreNames.contains(n)) d.createObjectStore(n); }); };
+    rq.onsuccess = () => { DB.db = rq.result; res(true); };
+    rq.onerror = () => res(false); rq.onblocked = () => res(false);
+    setTimeout(() => res(false), 4000);
+  } catch(e){ res(false); }
+});
+function idbReq(store, mode, fn){
+  return DB.ready.then(ok => new Promise(res => {
+    if (!ok || !DB.db) return res({ ok:false });
+    try {
+      const tx = DB.db.transaction(store, mode); const r = fn(tx.objectStore(store));
+      tx.oncomplete = () => res({ ok:true, v: r ? r.result : undefined });
+      tx.onerror = tx.onabort = () => res({ ok:false });
+    } catch(e){ res({ ok:false }); }
+  }));
+}
+const idbGet = (st, k) => idbReq(st, "readonly", o => o.get(k)).then(r => r.ok ? r.v : undefined);
+const idbPut = (st, k, v) => idbReq(st, "readwrite", o => o.put(v, k)).then(r => r.ok);
+const idbDel = (st, k) => idbReq(st, "readwrite", o => o.delete(k)).then(r => r.ok);
+const idbAll = st => idbReq(st, "readonly", o => o.getAll()).then(r => r.ok ? (r.v || []) : null);
+
+/* Alte Fotos aus dem kleinen Speicher (localStorage) einmalig umziehen */
+async function migratePhotos(){
+  if (!(await DB.ready)) return;
+  let keys = []; try { for (let i = 0; i < localStorage.length; i++){ const k = localStorage.key(i); if (k && k.startsWith("tw_ph_")) keys.push(k); } } catch(e){ return; }
+  for (const k of keys){ const d = LS.get(k); if (!d) continue; if (await idbPut("photos", k.slice(6), d)) LS.del(k); }
+}
+
+/* ---- Rückblicke: jedes beendete Spiel wird gespeichert ---- */
+let recaps = [];   // neueste zuerst
+let recapsLoaded = false;
+async function loadRecaps(){
+  let all = await idbAll("games");
+  if (all === null){ try { all = JSON.parse(LS.get("tw_recaps") || "[]"); } catch(e){ all = []; } }
+  recaps = all.filter(r => r && r.id && Array.isArray(r.players)).sort((a, b) => b.t - a.t);
+  recapsLoaded = true;
+}
+function persistRecaps(r){
+  return idbPut("games", r.id, r).then(ok => { if (!ok) LS.set("tw_recaps", JSON.stringify(recaps.slice(0, 40).map(x => Object.assign({}, x)))); });
+}
+let persistAsked = false;
+function saveRecap(){
+  if (!state.gameId || state.players.length < 1 || !state.rollId) return;
+  const r = { id:state.gameId, t:Date.now(), started:state.started || Date.now(),
+    settings:{ order:state.settings.order, ko:state.settings.ko, hearts:state.settings.hearts, cards:state.settings.cards },
+    players:JSON.parse(JSON.stringify(state.players)), winners:state.winners ? state.winners.slice() : null,
+    rage:state.rage ? Object.assign({}, state.rage) : null, proofs:JSON.parse(JSON.stringify(state.proofs)), rolls:state.rollId };
+  const i = recaps.findIndex(x => x.id === r.id);
+  if (i >= 0){ r.started = recaps[i].started; if (JSON.stringify(Object.assign({}, recaps[i], { t:0 })) === JSON.stringify(Object.assign({}, r, { t:0 }))) return; recaps[i] = r; }
+  else recaps.unshift(r);
+  recaps.sort((a, b) => b.t - a.t);
+  persistRecaps(r);
+  if (!persistAsked){ persistAsked = true; try { navigator.storage && navigator.storage.persist && navigator.storage.persist().catch(() => {}); } catch(e){} }
+}
+/* Welche Fotos werden noch gebraucht? (Rückblicke und, falls gewünscht, das laufende Spiel) */
+function photoRefs(withState){
+  const set = new Set();
+  const add = g => { (g.players || []).forEach(p => p.photo && set.add(p.photo)); (g.proofs || []).forEach(x => { set.add(x.photo); (x.frames || []).forEach(f => set.add(f)); }); };
+  recaps.forEach(add); if (withState) add(state);
+  return set;
+}
+function dropUnused(ids, withState){ const keep = photoRefs(withState); ids.forEach(id => { if (id && !keep.has(id)) dropPhoto(id); }); }
+async function deleteRecap(id){
+  const r = recaps.find(x => x.id === id); if (!r) return;
+  recaps = recaps.filter(x => x.id !== id);
+  await idbDel("games", id); if (!DB.db) LS.set("tw_recaps", JSON.stringify(recaps));
+  const ids = []; r.players.forEach(p => ids.push(p.photo)); r.proofs.forEach(x => { ids.push(x.photo); (x.frames || []).forEach(f => ids.push(f)); });
+  dropUnused(ids, true);
+}
+const recapIds = r => { const ids = []; r.players.forEach(p => p.photo && ids.push(p.photo)); r.proofs.forEach(x => { ids.push(x.photo); (x.frames || []).forEach(f => ids.push(f)); }); return ids; };
+async function storageMB(){ try { const e = await navigator.storage.estimate(); return Math.round((e.usage || 0) / 1048576); } catch(e){ return null; } }
+const STORAGE_LIMIT = 300;
+let storageUse = null;
+async function freeOldPhotos(){
+  // Fotos der ältesten Spiele löschen (Ergebnisse bleiben), bis wieder Platz ist
+  const old = recaps.slice().reverse().filter(r => !r.noPhotos && recapIds(r).length);
+  for (const r of old.slice(0, Math.max(1, Math.ceil(old.length / 3)))){
+    const ids = recapIds(r); r.noPhotos = true; r.proofs = []; r.players.forEach(p => { p.photo = null; });
+    await persistRecaps(r); dropUnused(ids, true);
+  }
+  storageUse = await storageMB();
+}
+
+const fmtDate = t => { try { return new Date(t).toLocaleDateString("de-DE", { weekday:"short", day:"numeric", month:"short" }) + " · " + new Date(t).toLocaleTimeString("de-DE", { hour:"2-digit", minute:"2-digit" }); } catch(e){ return ""; } };
+const gP = (g, id) => g.players.find(p => p.id === id);
+function recapHeadline(g){
+  if (g.settings.ko && g.winners && g.winners.length) return "Sieg: " + g.winners.map(id => (gP(g, id) || {}).name || "?").join(" & ");
+  const top = ranking(g)[0]; return top ? "Meiste Becher: " + top.name + " (" + tot(top) + ")" : "";
+}
+function renderRecaps(){
+  const games = recaps.length, cups = recaps.reduce((s, r) => s + r.players.reduce((a, p) => a + tot(p), 0), 0);
+  const pics = recaps.reduce((s, r) => s + r.proofs.length + r.players.filter(p => p.photo).length, 0);
+  app.innerHTML = `${back("home", "Rückblicke")}
+  <div class="totals"><div><b>${games}</b><span>${games === 1 ? "Spiel" : "Spiele"}</span></div><div><b>${cups}</b><span>Becher</span></div><div><b>${pics}</b><span>Fotos</span></div></div>
+  ${storageUse != null && storageUse > STORAGE_LIMIT ? `<div class="warnbox"><b>Speicher fast voll:</b> Die Fotos belegen über ${STORAGE_LIMIT} MB. Sollen die Fotos der ältesten Spiele gelöscht werden? Ergebnisse und Ranglisten bleiben.<button class="btn alt" data-act="free-photos" data-confirm="Sicher? Nochmal tippen">Alte Fotos löschen</button></div>` : ""}
+  ${!recapsLoaded ? `<p class="empty">Wird geladen …</p>` : games ? `<div class="glist">${recaps.map(r => `
+    <button class="gitem" data-act="go" data-v="recap" data-arg="${esc(r.id)}">
+      <span class="gtop"><b>${esc(fmtDate(r.started || r.t))}</b><span class="tag mtag">${esc(modeName(r.settings))}</span></span>
+      <span class="avs">${r.players.slice(0, 7).map(p => avatar(p, "s")).join("")}${r.players.length > 7 ? `<span class="more">+${r.players.length - 7}</span>` : ""}</span>
+      <span class="gsub">${esc(recapHeadline(r))}${r.proofs.length ? ` · ${r.proofs.length} ${r.proofs.length === 1 ? "Foto" : "Fotos"}` : ""}</span>
+    </button>`).join("")}</div>` : `<p class="empty">Noch keine Spiele. Nach jedem Spiel landet hier ein Rückblick mit Rangliste, Auszeichnungen und allen Fotos.</p>`}
+  <p class="note">Alles bleibt nur auf diesem Handy.</p>`;
+  if (recaps.length) loadPhotos([].concat(...recaps.map(r => r.players.map(p => p.photo)))).then(ch => { if (ch && view === "recaps" && (state.phase === "intro" || away)) render(); });
+}
+function recapGallery(g){
+  const items = [];
+  g.proofs.forEach(x => { const q = gP(g, x.pid); items.push({ photo:x.photo, frames:x.frames, cap:q ? q.name : "Alle", sub:x.label, proof:x }); });
+  g.players.forEach(p => { if (p.photo) items.push({ photo:p.photo, frames:null, cap:p.name, sub:"Selfie" }); });
+  return items;
+}
+function renderRecap(id){
+  const g = recaps.find(r => r.id === id); if (!g){ view = "recaps"; return renderRecaps(); }
+  const aw = awards(g), near = nearLines(g), total = g.players.reduce((s, p) => s + tot(p), 0);
+  const W = (g.winners || []).map(x => gP(g, x)).filter(Boolean);
+  const rg = g.rage && gP(g, g.rage.pid);
+  const items = recapGallery(g); const shown = items.filter(x => photos[x.photo]);
+  app.innerHTML = `${back("recaps", fmtDate(g.started || g.t))}
+  <p class="soft" style="margin-top:-8px">${esc(modeName(g.settings))} · ${g.players.length} Leute · ${total} Becher · ${g.rolls || 0} Würfe</p>
+  ${W.length ? `<div class="winner"><span class="crown">Last Man Standing</span><div class="avs">${W.map(p => avatar(p,"l")).join("")}</div><h2>${W.map(p => esc(p.name)).join(" & ")}</h2></div>` : ""}
+  ${aw.length ? `<div class="awards">${aw.map(a => `<div class="award"><span class="eyebrow">${a[0]}</span><span class="val">${a[2]}</span><div class="who">${avatar(a[1],"s")}<span>${esc(a[1].name)}</span></div></div>`).join("")}</div>` : ""}
+  ${rg ? `<div class="rage">${avatar(rg,"m")}<div class="txt"><span class="lbl">Rage-Moment</span><span class="q">${esc(g.rage.text)}</span></div></div>` : ""}
+  ${near.length ? `<div class="section"><span class="eyebrow">Knapp daneben</span><div class="near">${near.map(t => `<p>${t}</p>`).join("")}</div></div>` : ""}
+  <div class="section"><span class="eyebrow">${rankTitle(g)}</span><div class="panel">${rankRows(g)}</div></div>
+  <div class="section"><span class="eyebrow">Fotos</span>
+    ${g.noPhotos ? `<p class="empty">Die Fotos dieses Spiels wurden gelöscht, um Platz zu sparen.</p>` : items.length ? `<div class="gallery rg">${items.map((x, i) => `<figure data-act="view" data-i="${i}">${photos[x.photo] ? (x.frames && x.frames.length > 1 ? `<img src="${photos[x.photo]}" data-boom="${x.frames.join(",")}" alt="">` : `<img src="${photos[x.photo]}" alt="">`) : `<span class="ph-load"></span>`}${x.frames && x.frames.length > 1 ? `<span class="boomtag">BOOMERANG</span>` : ""}<figcaption><span class="cap">${esc(x.cap)}<small>${esc(x.sub || "")}</small></span></figcaption></figure>`).join("")}</div>` : `<p class="empty">In diesem Spiel wurden keine Fotos gemacht.</p>`}
+  </div>
+  ${shown.length && canDownload() ? `<div class="stack"><button class="btn" data-act="save-all" data-g="${esc(g.id)}">${ICON.down} Alle Fotos herunterladen</button><p class="dl-msg" id="dl-msg" aria-live="polite"></p></div>` : ""}
+  <button class="btn alt danger" data-act="del-recap" data-arg="${esc(g.id)}" data-confirm="Spiel und Fotos löschen? Nochmal tippen">${PI.trash} Dieses Spiel löschen</button>`;
+  const need = recapIds(g).filter(x => !photos[x]);
+  if (need.length) loadPhotos(need).then(ch => { if (ch && view === "recap" && viewArg === id) render(); });
+}
+
+/* ---- Fotos groß ansehen (wischen zum Blättern) ---- */
+let viewer = null;
+function openViewer(items, i){ viewer = { items, i }; drawViewer(); }
+function drawViewer(){
+  if (!viewer) return; const it = viewer.items[viewer.i]; const n = viewer.items.length;
+  const img = it.frames && it.frames.length > 1 ? `<img src="${photos[it.frames[0]] || ""}" data-boom="${it.frames.join(",")}" alt="">` : `<img src="${photos[it.photo] || ""}" alt="">`;
+  sheetRoot.innerHTML = `<div class="viewer" role="dialog" aria-label="Foto">
+    <div class="vtop"><span>${viewer.i + 1} / ${n}</span><button class="ib" data-act="viewer-close" aria-label="Schließen">${ICON.close}</button></div>
+    <div class="vimg" id="vimg">${img}</div>
+    <div class="vcap"><b>${esc(it.cap)}</b><span>${esc(it.sub || "")}</span></div>
+    <div class="vnav"><button class="ib" data-act="viewer-prev" aria-label="Vorheriges" ${viewer.i ? "" : "disabled"}>${svgI('<path d="M15 5l-7 7 7 7"/>')}</button>
+      ${canDownload() ? `<button class="ib" data-act="viewer-save" aria-label="Speichern">${ICON.down}</button>` : ""}
+      <button class="ib" data-act="viewer-next" aria-label="Nächstes" ${viewer.i < n - 1 ? "" : "disabled"}>${chev}</button></div>
+  </div>`;
+  const v = document.getElementById("vimg"); let x0 = null;
+  v.addEventListener("pointerdown", e => { x0 = e.clientX; });
+  v.addEventListener("pointerup", e => { if (x0 == null) return; const dx = e.clientX - x0; x0 = null; if (Math.abs(dx) > 40){ viewer.i = Math.max(0, Math.min(n - 1, viewer.i + (dx < 0 ? 1 : -1))); drawViewer(); } });
+}
+function closeViewer(){ viewer = null; sheetRoot.innerHTML = ""; }
 
 /* ---- Eintragen ---- */
 function renderJoin(){
@@ -1414,17 +1798,17 @@ function renderGame(){
   } else if (s.t === "fill"){
     const g = state.glasses[s.glass];
     const more = state.steps.length > 1;
-    verdict = `<span class="word">Auffüllen</span><span class="line">Glas ${s.glass + 1} ist leer${g.content ? " · " + esc(g.content) + " rein" : ""}</span>`;
+    verdict = `<span class="word">Auffüllen</span><span class="line">Becher ${s.glass + 1} ist leer${g.content ? " · " + esc(g.content) + " rein" : ""}</span>`;
     actions = `<button class="btn" data-act="confirm">Aufgefüllt${more ? "" : ` <span class="sub">· ${passLabel()}</span>`}</button>${cardBtn ? `<div class="minis">${cardBtn}</div>` : ""}`;
   } else if (s.t === "drink"){
     const d = P(s.who); const g = s.kurz ? null : state.glasses[s.glass];
     const fromP = s.from && P(s.from);
     const reason = s.via ? VIA[s.via] + (fromP ? " von " + esc(fromP.name) : "") : "";
-    const what = s.kurz ? "einen Kurzen" : `Glas ${s.glass + 1}${g.type === "shot" ? " · den Shot" : ""}${g.content ? " · " + esc(g.content) : ""}`;
+    const what = s.kurz ? "einen Extra-Schluck" : `Becher ${s.glass + 1}${g.type === "shot" ? " · den goldenen" : ""}${g.content ? " · " + esc(g.content) : ""}`;
     const own = d && d.id === p.id;
     showDie = !!s.main && !camTip;
     const kd = s.kurz && s.n && (s.via === "doppel" || s.via === "drilling") ? kurzWhy(s, d) : "";
-    verdict = `<span class="word">${s.kurz ? "Kurzer!" : "Trinken!"}</span>
+    verdict = `<span class="word${s.kurz ? " long" : ""}">${s.kurz ? "Extra-Schluck!" : "Trinken!"}</span>
       ${kd ? (own ? kd : `<span class="whobar">${avatar(d,"s")}${esc(d ? d.name : "?")}</span>${kd}`) : own ? `<span class="line">${what}${reason ? " · " + reason : ""}</span>` : `<span class="whobar">${avatar(d,"s")}${esc(d ? d.name : "?")}</span><span class="line">trinkt ${what}${reason ? " · " + reason : ""}</span>`}
       ${s.main && own && p.streak >= 1 && !s.from ? `<span class="streak">${p.streak + 1}. am Stück</span>` : ""}
       ${camTip ? `<div class="camtip" role="note"><div><b>${esc(camTip.name)}, Beweisfoto?</b> Tipp unten auf <b>Foto</b> für einen kurzen Boomerang.<span class="more"> Alle Fotos gibt's am Ende.</span></div><button class="tipok" data-act="camtip-ok" data-id="${camTip.id}">Verstanden</button></div>` : ""}`;
@@ -1433,15 +1817,15 @@ function renderGame(){
       <div class="minis">${konterBtn}${canJoker() ? `<button class="mini" data-act="joker">${ICON.swap} Joker</button>` : ""}${camBtn}</div>`;
   } else if (s.t === "allDrink"){
     showDie = false;
-    verdict = `<span class="word">Alle trinken!</span><span class="line">Volles Haus · jeder einen Kurzen</span>
+    verdict = `<span class="word">Alle trinken!</span><span class="line">Volles Haus · jeder einen Extra-Schluck</span>
       <div class="allrow">${active().map(q => `<span class="x ${s.excused.includes(q.id) ? "saved" : ""}">${avatar(q,"s")}</span>`).join("")}</div>`;
     actions = `<button class="btn" data-act="confirm">Alle haben getrunken</button><div class="minis">${konterBtn}${camBtn}</div>`;
   } else if (s.t === "pick"){
     showDie = false;
     const by = P(s.by);
-    const T = { duell:["Shot-Duell!","wer trinkt einen Kurzen mit?"], rache:["Rache!","wer trinkt das nächste volle Glas?"], joker:["Joker!","wer bekommt dein Glas?"],
-      umleitung:["Umleitung!","wer trinkt das nächste volle Glas?"], barkeeper:["Barkeeper!","wer trinkt sofort einen Kurzen?"], engel:["Schutzengel!","wen rettest du?"],
-      sabotage:["Sabotage!","tippe ein leeres Glas an."], tausch:["Tausch!", s.first == null ? "tippe das erste Glas an." : "jetzt das zweite Glas."] }[s.purpose];
+    const T = { duell:["Gold-Duell!","wer trinkt einen Extra-Schluck mit?"], rache:["Rache!","wer trinkt den nächsten vollen Becher?"], joker:["Joker!","wer bekommt deinen Becher?"],
+      umleitung:["Umleitung!","wer trinkt den nächsten vollen Becher?"], barkeeper:["Gastgeber!","wer trinkt sofort einen Extra-Schluck?"], engel:["Schutzengel!","wen rettest du?"],
+      sabotage:["Sabotage!","tippe einen leeren Becher an."], tausch:["Tausch!", s.first == null ? "tippe den ersten Becher an." : "jetzt den zweiten Becher."] }[s.purpose];
     verdict = `<span class="word">${T[0]}</span><span class="line">${esc(by ? by.name : "")}, ${T[1]}</span>`;
     if (!glassPick) extra = `<div class="picks">${pickTargets(s).map(q => `<button class="pk" data-act="pick" data-id="${q.id}">${avatar(q,"m")}<span>${esc(q.name)}</span></button>`).join("")}</div>`;
   } else if (s.t === "pass"){
@@ -1456,9 +1840,9 @@ function renderGame(){
     actions = `<button class="btn" data-act="confirm">Weiter</button>`;
   }
 
-  // Kommt nach diesem Schritt noch ein Kurzer wegen Doppel/Drilling? Dann gleich ankündigen.
+  // Kommt nach diesem Schritt noch ein Extra-Schluck wegen Doppel/Drilling? Dann gleich ankündigen.
   const nextK = s && s.main ? state.steps.slice(1).find(x => x.t === "drink" && x.kurz && (x.via === "doppel" || x.via === "drilling")) : null;
-  if (nextK) verdict += `<span class="after-k">Danach: Kurzer wegen ${VIA[nextK.via]}</span>`;
+  if (nextK) verdict += `<span class="after-k">Danach: Extra-Schluck wegen ${VIA[nextK.via]}</span>`;
   const rd = state.redirect && P(state.redirect.target);
   app.innerHTML = `
   <div class="top">
@@ -1471,7 +1855,7 @@ function renderGame(){
       <button class="ib" data-act="menu" aria-label="Menü">${ICON.menu}</button>
     </div>
   </div>
-  ${rd ? `<div class="redirect">${avatar(rd,"s")}<span>Nächstes volles Glas: ${esc(rd.name)} · ${VIA[state.redirect.src]}</span></div>` : ""}
+  ${rd ? `<div class="redirect">${avatar(rd,"s")}<span>Nächster voller Becher: ${esc(rd.name)} · ${VIA[state.redirect.src]}</span></div>` : ""}
   <div class="table">${[0,1,2,3,4,5].map(i => glassHTML(i, cls(i))).join("")}</div>
   <section class="stage" aria-live="polite">
     ${showDie ? `<div class="die ${s ? "" : "idle"}" id="die" ${s ? "" : 'data-act="roll" role="button" tabindex="0" aria-label="Würfeln"'}>${dieFace(s && s.main ? s.glass + 1 : state.lastRoll)}</div>` : ""}
@@ -1480,7 +1864,7 @@ function renderGame(){
     <div class="actions">${actions}</div>
   </section>
   <div class="strip">${state.players.map((q,i) => `
-    <button class="pl ${i === state.turn ? "cur" : ""} ${q.ko ? "koed" : (q.active ? "" : "out")}" data-act="player" data-id="${q.id}" aria-label="${esc(q.name)}, ${tot(q)} Getränke">
+    <button class="pl ${i === state.turn ? "cur" : ""} ${q.ko ? "koed" : (q.active ? "" : "out")}" data-act="player" data-id="${q.id}" aria-label="${esc(q.name)}, ${tot(q)} Becher">
       <span class="wrap">${avatar(q,"s")}${S.cards && !q.cardUsed ? `<span class="cardic" aria-hidden="true"></span>` : ""}<span class="badge">${q.ko ? "K.O." : (q.active ? tot(q) : "raus")}</span></span>
       <span class="nm">${esc(q.name)}</span>${q.active ? hearts(q) : ""}
     </button>`).join("")}
@@ -1491,49 +1875,49 @@ function renderGame(){
 }
 
 /* ---- Endstand ---- */
-function awards(){
-  const ps = state.players; if (!ps.length) return [];
+function awards(g = state){
+  const ps = g.players; if (!ps.length) return [];
   const by = f => ps.slice().sort((a,b) => f(b) - f(a))[0];
   const out = [];
   const top = by(p => tot(p) * 10 + p.shots);
-  if (tot(top)) out.push(["Meiste Getränke", top, tot(top)]);
-  const sh = by(p => p.shots); if (sh.shots) out.push(["Meiste Shots", sh, sh.shots]);
+  if (tot(top)) out.push(["Meiste Becher", top, tot(top)]);
+  const sh = by(p => p.shots); if (sh.shots) out.push(["Goldjäger", sh, sh.shots + "× Gold"]);
   const st = by(p => p.best); if (st.best > 1) out.push(["Längste Serie", st, st.best + "×"]);
   const dr = by(p => p.drillings); if (dr.drillings) out.push(["Drilling-König", dr, dr.drillings + "×"]);
   const ko = ps.find(p => p.konters > 0); if (ko) out.push(["Bester Konter", ko, CARDS[ko.card] ? CARDS[ko.card].name : "Konter"]);
   const low = ps.slice().sort((a,b) => tot(a) - tot(b))[0];
-  if (ps.length > 1 && tot(top) && low !== top) out.push(["Wenigste Getränke", low, tot(low)]);
+  if (ps.length > 1 && tot(top) && low !== top) out.push(["Wenigste Becher", low, tot(low)]);
   return out.slice(0, 6);
 }
-function nearLines(){
+function nearLines(g = state){
   const out = [];
-  const a = state.players.slice().sort((x,y) => y.nearLast - x.nearLast)[0];
-  if (a && a.nearLast) out.push(`${esc(a.name)} hat ${a.nearLast}× genau das einzige volle Glas auf dem Tisch erwischt.`);
-  const b = state.players.slice().sort((x,y) => y.nearRefill - x.nearRefill)[0];
-  if (b && b.nearRefill) out.push(`${esc(b.name)} hat ${b.nearRefill}× genau das Glas getroffen, das die Person davor gerade gefüllt hatte.`);
+  const a = g.players.slice().sort((x,y) => y.nearLast - x.nearLast)[0];
+  if (a && a.nearLast) out.push(`${esc(a.name)} hat ${a.nearLast}× genau den einzigen vollen Becher auf dem Tisch erwischt.`);
+  const b = g.players.slice().sort((x,y) => y.nearRefill - x.nearRefill)[0];
+  if (b && b.nearRefill) out.push(`${esc(b.name)} hat ${b.nearRefill}× genau den Becher getroffen, den die Person davor gerade gefüllt hatte.`);
   return out;
 }
-/* Rangliste: normal nach Getränken, im K.O.-Modus nach Durchhalten */
-const rankTitle = () => state.settings.ko ? "Wer hat am längsten durchgehalten" : "Wer hat am meisten getrunken";
+/* Rangliste: normal nach geleerten Bechern (Gold zählt doppelt), im K.O.-Modus nach Durchhalten */
+const rankTitle = (g = state) => g.settings.ko ? "Wer hat am längsten durchgehalten" : "Wer hat die meisten Becher geleert";
 function rankKey(p){ return p.ko ? -1e6 + (p.koAt || 0) : 1e6 + (p.hearts || 0); }
-function ranking(){
+function ranking(g = state){
   const byDrinks = (a, b) => (tot(b) - tot(a)) || (b.shots - a.shots);
-  const ps = state.players.slice();
-  if (!state.settings.ko) return ps.sort(byDrinks);
-  const W = state.winners || [];
+  const ps = g.players.slice();
+  if (!g.settings.ko) return ps.sort(byDrinks);
+  const W = g.winners || [];
   return ps.sort((a, b) => (W.includes(b.id) - W.includes(a.id)) || (rankKey(b) - rankKey(a)) || (tot(a) - tot(b)));
 }
-function rankNums(list){
+function rankNums(list, g = state){
   // Gleichzeitig K.O. = gleicher Platz
-  return list.map((p, i) => { if (!state.settings.ko || !p.ko) return i + 1; const j = list.findIndex(q => q.ko && q.koAt === p.koAt); return j + 1; });
+  return list.map((p, i) => { if (!g.settings.ko || !p.ko) return i + 1; const j = list.findIndex(q => q.ko && q.koAt === p.koAt); return j + 1; });
 }
-const rankVal = p => state.settings.ko ? (p.ko ? "K.O." : (p.hearts || 0) + " ♥") : String(tot(p));
-function rankRows(){
-  const sorted = ranking(), nums = rankNums(sorted);
+const rankVal = (p, g = state) => g.settings.ko ? (p.ko ? "K.O." : (p.hearts || 0) + " ♥") : String(tot(p));
+function rankRows(g = state){
+  const sorted = ranking(g), nums = rankNums(sorted, g);
   return `<div class="rows">${sorted.map((p,i) => `
     <div class="r"><span class="rk">${nums[i]}</span>${avatar(p,"s")}
-      <span class="nm">${esc(p.name)}<small>${p.drinks} Gläser · ${p.extras} Kurze · ${p.shots} Shot${p.shots === 1 ? "" : "s"}${state.settings.ko ? "" : (p.active ? "" : " · ausgestiegen")}</small></span>
-      <span class="val${state.settings.ko && p.ko ? " out" : ""}">${rankVal(p)}</span></div>`).join("")}</div>`;
+      <span class="nm">${esc(p.name)}<small>${p.drinks} Becher · ${p.extras} Extra · ${p.shots} Gold${g.settings.ko ? "" : (p.active ? "" : " · ausgestiegen")}</small></span>
+      <span class="val${g.settings.ko && p.ko ? " out" : ""}">${rankVal(p, g)}</span></div>`).join("")}</div>`;
 }
 function renderEnd(){
   const aw = awards(); const total = state.players.reduce((s,p) => s + tot(p), 0);
@@ -1543,7 +1927,7 @@ function renderEnd(){
   const near = nearLines();
   app.innerHTML = `
   <header class="hero">
-    <span class="eyebrow">${total} ${total === 1 ? "Getränk" : "Getränke"} insgesamt</span>
+    <span class="eyebrow">${total} Becher insgesamt</span>
     <h1>Endstand</h1>
   </header>
   ${W.length ? `<div class="winner"><span class="crown">Last Man Standing</span><div class="avs">${W.map(p => avatar(p,"l")).join("")}</div><h2>${W.map(p => esc(p.name)).join(" & ")}</h2><span class="soft" style="color:rgba(255,255,255,.75)">${W.length > 1 ? "Gemeinsam als Letzte übrig." : "Als Letzte übrig, mit " + W[0].hearts + " ♥."}</span></div>` : ""}
@@ -1566,7 +1950,8 @@ function renderEnd(){
     ${active().length && !state.winners ? `<button class="btn" data-act="resume">Weiterspielen</button>` : ""}
     <button class="btn alt" data-act="recap">Rückblick nochmal ansehen</button>
     <button class="btn alt" data-act="rematch">Neue Runde, gleiche Leute</button>
-    <button class="btn alt" data-act="reset" data-confirm="Sicher? Nochmal tippen">Alles neu</button>
+    <button class="btn alt" data-act="reset">Zum Startbildschirm</button>
+    <p class="note">Dieses Spiel und alle Fotos findest du später unter „Rückblicke“.</p>
   </div>`;
   renderShare();
 }
@@ -1583,7 +1968,7 @@ function playerSheet(id){
   const ko = state.settings.ko;
   openSheet(p.name, `
     <div style="display:flex;justify-content:center;position:relative" class="${p.ko ? "koed" : ""}">${avatar(p,"l")}${p.ko ? `<span class="stamp big"><span>K.O.</span></span>` : ""}</div>
-    <div class="stats3"><div><b>${p.drinks}</b><span>Gläser</span></div><div><b>${p.extras}</b><span>Kurze</span></div><div><b>${p.shots}</b><span>Shots</span></div><div><b>${ko ? p.hearts : p.best}</b><span>${ko ? "Herzen" : "beste Serie"}</span></div></div>
+    <div class="stats3"><div><b>${p.drinks}</b><span>Becher</span></div><div><b>${p.extras}</b><span>Extra-Schlucke</span></div><div><b>${p.shots}</b><span>davon Gold</span></div><div><b>${ko ? p.hearts : p.best}</b><span>${ko ? "Herzen" : "beste Serie"}</span></div></div>
     <div class="stack">
       <button class="btn alt" data-act="rephoto" data-id="${p.id}">Neues Selfie</button>
       ${p.active ? `<button class="btn" data-act="leave" data-id="${p.id}" data-confirm="Sicher? Nochmal tippen">${ko ? "Aussteigen (zählt als K.O.)" : "Aussteigen"}</button>`
@@ -1593,10 +1978,10 @@ function playerSheet(id){
 function historySheet(){
   const rows = state.history.slice().reverse().filter(h => h.kind !== "roll").slice(0, 100).map(h => {
     const q = P(h.pid); const nm = esc(q ? q.name : "?"); const tg = h.target && P(h.target) ? esc(P(h.target).name) : "";
-    const txt = { drink:`${nm} trinkt Glas ${h.roll}${h.via ? " · " + VIA[h.via] : ""}`, fill:`${nm} füllt auf`, kurz:`${nm} trinkt einen Kurzen · ${VIA[h.via] || ""}`,
+    const txt = { drink:`${nm} trinkt Becher ${h.roll}${h.via ? " · " + VIA[h.via] : ""}`, fill:`${nm} füllt auf`, kurz:`${nm} trinkt einen Extra-Schluck · ${VIA[h.via] || ""}`,
       leave:`${nm} steigt aus`, rejoin:`${nm} ist wieder dabei`, add:`${nm} kommt dazu`, ko:`${nm} ist K.O.`, card:`${nm} spielt ${CARDS[h.card] ? CARDS[h.card].name : "eine Karte"}`,
       konter:`${nm} kontert mit ${CARDS[h.card] ? CARDS[h.card].name : ""}${tg ? " · " + tg : ""}`, target:`${nm} wählt ${tg} · ${VIA[h.via] || ""}`,
-      sabotage:`${nm} sabotiert Glas ${h.roll}`, tausch:`${nm} tauscht Glas ${h.a} und ${h.b}`, fullhouse:"Volles Haus!", allDrink:"Alle haben getrunken",
+      sabotage:`${nm} sabotiert Becher ${h.roll}`, tausch:`${nm} tauscht Becher ${h.a} und ${h.b}`, fullhouse:"Volles Haus!", allDrink:"Alle haben getrunken",
       doppel:`Doppel für ${nm}`, drilling:`Drilling für ${nm}`, saved:`${nm} rettet ${tg}` }[h.kind];
     const dotCls = ["drink","kurz","allDrink"].includes(h.kind) ? "d" : (["card","konter","target","sabotage","tausch"].includes(h.kind) ? "c" : "f");
     const dot = `<span class="dot ${dotCls}">${h.roll || (h.kind === "leave" || h.kind === "ko" ? "–" : "•")}</span>`;
@@ -1609,7 +1994,7 @@ function rulesSheet(){
   openSheet("Regeln", `
     <div class="rows">
       <div class="r"><span class="nm">Reihenfolge<small>${ORDERS[S.order][0]}</small></span></div>
-      <div class="r"><span class="nm">K.O.-Modus<small>${S.ko ? S.hearts + " Herzen · Glas 1, Shot 2, Kurzer 1" : "aus"}</small></span></div>
+      <div class="r"><span class="nm">K.O.-Modus<small>${S.ko ? S.hearts + " Herzen · Becher 1, goldener Becher 2, Extra-Schluck 1" : "aus"}</small></span></div>
       <div class="r"><span class="nm">Fähigkeitskarten<small>${S.cards ? "an" : "aus"}</small></span></div>
       ${on.map(a => `<div class="r"><span class="nm">${a[1]}<small>${a[2]}</small></span></div>`).join("") || `<div class="r"><span class="nm">Keine Add-ons</span></div>`}
     </div>
@@ -1627,6 +2012,7 @@ function menuSheet(){
       <button class="btn alt" data-act="rules">Regeln und Karten</button>
       ${canShareCard() ? `<button class="btn alt" data-act="share-link">${ICON.share} Spiel mit Freunden teilen</button>` : ""}
       <button class="btn alt" data-act="history">Verlauf</button>
+      <button class="btn alt" data-act="to-home">Zum Startbildschirm</button>
       <button class="btn" data-act="end">Abend beenden</button>
       <button class="btn alt" data-act="reset" data-confirm="Sicher? Nochmal tippen">Spiel abbrechen</button>
     </div>`);
@@ -1671,7 +2057,7 @@ function showFx(f){
     buzz([40,30,90]); sfx("card");
   } else if (f.type === "fullhouse"){
     const ps = active(); sfx("tusch");
-    fxShell(`<div class="show" id="fx-show">${slideFrames(ps[0])}</div><div class="big">Alle trinken!</div><div class="sub">Volles Haus · jeder einen Kurzen</div>`, 2600);
+    fxShell(`<div class="show" id="fx-show">${slideFrames(ps[0])}</div><div class="big">Alle trinken!</div><div class="sub">Volles Haus · jeder einen Extra-Schluck</div>`, 2600);
     let k = 0; const el = document.getElementById("fx-show");
     fxDone._iv.push(setInterval(() => { k++; if (el && ps.length) el.innerHTML = slideFrames(ps[k % ps.length]); }, 150));
     buzz([100,60,100,60,160]);
@@ -1759,7 +2145,7 @@ function doRoll(){
 let camStream = null, camFacing = "environment";
 function proofContext(){
   const s = state.steps[0]; if (!s || (s.t !== "drink" && s.t !== "allDrink")) return null;
-  return { key:s.key, pid: s.t === "drink" ? s.who : null, label: s.t === "allDrink" ? "Volles Haus" : (s.kurz ? "Kurzer · " + (VIA[s.via] || "") : "Glas " + (s.glass + 1) + " · " + glassLabel(s.glass)) };
+  return { key:s.key, pid: s.t === "drink" ? s.who : null, label: s.t === "allDrink" ? "Volles Haus" : (s.kurz ? "Extra-Schluck · " + (VIA[s.via] || "") : "Becher " + (s.glass + 1) + (state.glasses[s.glass].type === "shot" ? " · golden" : "") + (state.glasses[s.glass].content ? " · " + state.glasses[s.glass].content : "")) };
 }
 function addProof(ctx, frames){
   const ids = frames.map(d => { const id = "pr_" + uid(); savePhoto(id, d); return id; });
@@ -1888,14 +2274,14 @@ function dataToBlob(d){
   for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
   return new Blob([arr], { type:(head.match(/data:([^;]+)/) || [])[1] || "image/jpeg" });
 }
-function allPhotos(){
+function allPhotos(g = state){
   const out = [];
-  state.proofs.forEach((x, i) => {
+  g.proofs.forEach((x, i) => {
     if (!photos[x.photo]) return;
-    const q = P(x.pid); const base = `Beweisfotos/${String(i + 1).padStart(2, "0")}_${slug(q ? q.name : "Alle")}`;
+    const q = g.players.find(p => p.id === x.pid); const base = `Beweisfotos/${String(i + 1).padStart(2, "0")}_${slug(q ? q.name : "Alle")}`;
     out.push({ proof:x, name: base + (x.frames && x.frames.length > 1 ? "_Boomerang.gif" : ".jpg") });
   });
-  state.players.forEach(p => { if (p.photo && photos[p.photo]) out.push({ id:p.photo, name:`Selfies/${slug(p.name)}.jpg` }); });
+  g.players.forEach(p => { if (p.photo && photos[p.photo]) out.push({ id:p.photo, name:`Selfies/${slug(p.name)}.jpg` }); });
   return out;
 }
 async function fileBlob(f){
@@ -1917,7 +2303,8 @@ function dlError(e){
   dlMsg("Speichern hat nicht geklappt. Foto gedrückt halten und „Bild sichern“ wählen.");
 }
 async function saveAll(btn){
-  const files = allPhotos(); if (!files.length || !canDownload()) return;
+  const g = btn.dataset.g ? recaps.find(r => r.id === btn.dataset.g) : state; if (!g) return;
+  const files = allPhotos(g); if (!files.length || !canDownload()) return;
   btn.disabled = true; dlMsg("Wird gepackt …");
   try {
     if (window.JSZip){
@@ -1925,7 +2312,7 @@ async function saveAll(btn){
       for (const f of files) zip.file(f.name, await fileBlob(f));
       const data = await zip.generateAsync({ type:"blob" });
       dlMsg("");
-      const r = await saveFile(`SixCup-${new Date().toISOString().slice(0,10)}.zip`, data);
+      const r = await saveFile(`SixCup-${new Date(g.started || Date.now()).toISOString().slice(0,10)}.zip`, data);
       if (r && r.status === "saved") dlMsg("Gespeichert. Die ZIP-Datei liegt bei deinen Downloads.");
     } else {
       for (const f of files) await saveFile(f.name.split("/").pop(), await fileBlob(f));
@@ -1934,8 +2321,8 @@ async function saveAll(btn){
   } catch(e){ dlError(e); }
   btn.disabled = false;
 }
-async function saveOne(photoId){
-  const f = allPhotos().find(x => x.proof && x.proof.photo === photoId); if (!f) return;
+async function saveOne(photoId, g = state){
+  const f = allPhotos(g).find(x => (x.proof && x.proof.photo === photoId) || x.id === photoId); if (!f) return;
   try { await saveFile(f.name.split("/").pop(), await fileBlob(f)); } catch(e){ dlError(e); }
 }
 
@@ -2008,7 +2395,7 @@ function syncRuleForm(){
 /* ---- Einführung beim ersten Start ---- */
 let tourSeen = false, tourI = 0;
 const TOUR = [
-  { t:"So geht's", d:"Leeres Glas gewürfelt: auffüllen und das Handy weitergeben. Volles Glas: austrinken und sofort nochmal würfeln.", v:"glasses" },
+  { t:"So geht's", d:"Leerer Becher gewürfelt: auffüllen und das Handy weitergeben. Voller Becher: austrinken und sofort nochmal würfeln. Was in die Becher kommt, entscheidet ihr.", v:"glasses" },
   { t:"Das Handy wandert", d:"Jeder trägt sich ein, macht ein Selfie und würfelt direkt los. Ist das Handy wieder beim Ersten: „Alle sind drin“ tippen.", v:"pass" },
   { t:"Karten und Konter", d:"Viele bekommen eine geheime Karte: gedrückt halten zum Ansehen. Im eigenen Zug „Karte spielen“. Muss jemand trinken: „Konter?“ und aufs eigene Bild tippen.", v:"card" },
   { t:"Beweisfotos", d:"Muss jemand trinken, tippt unten auf „Foto“: Das Handy nimmt einen kurzen Boomerang auf. Am Ende seht ihr alle Fotos und könnt sie runterladen.", v:"photo" },
@@ -2108,7 +2495,7 @@ async function drawShare(){
   x.fillStyle = "#ffffff"; x.font = `800 40px ${SH_BODY}`;
   x.fillText(new Date().toLocaleDateString("de-DE", { day:"numeric", month:"long", year:"numeric" }), tx, logo ? 170 : 214);
   x.fillStyle = "rgba(255,255,255,.6)"; x.font = `700 32px ${SH_BODY}`;
-  x.fillText(state.players.length + " Leute · " + total + (total === 1 ? " Getränk" : " Getränke"), tx, logo ? 222 : 262);
+  x.fillText(state.players.length + " Leute · " + total + " Becher", tx, logo ? 222 : 262);
   x.textAlign = "center";
   if (shareState.kind === "rage" && state.rage){
     const p = P(state.rage.pid);
@@ -2128,7 +2515,7 @@ async function drawShare(){
       const pod = [[ranked[1], 250, 640, 110], [ranked[0], 540, 600, 150], [ranked[2], 830, 640, 110]];
       for (const [p, cx, cy, r] of pod){ if (!p) continue; await sAvatar(x, p, cx, cy, r, faces);
         x.fillStyle = "#ffffff"; x.font = `800 ${r > 120 ? 58 : 44}px ${SH_DISP}`; x.fillText(p.name.length > 12 ? p.name.slice(0, 11) + "…" : p.name, cx, cy + r + 62);
-        x.fillStyle = "#ffc84a"; x.font = `800 40px ${SH_BODY}`; x.fillText(state.settings.ko ? rankVal(p) : tot(p) + (tot(p) === 1 ? " Getränk" : " Getränke"), cx, cy + r + 116); }
+        x.fillStyle = "#ffc84a"; x.font = `800 40px ${SH_BODY}`; x.fillText(state.settings.ko ? rankVal(p) : tot(p) + " Becher", cx, cy + r + 116); }
     }
     let y = Wn.length ? 1010 : 1000;
     x.textAlign = "left";
@@ -2149,7 +2536,7 @@ async function drawShare(){
 }
 const SHARE_URL = "https://lionstone3010.github.io/sixcup/";
 async function shareLink(){
-  const data = { title:"SixCup", text:"Lust auf ein Trinkspiel? SixCup: 6 Gläser, 1 Würfel, direkt im Handy-Browser.", url:SHARE_URL };
+  const data = { title:"SixCup", text:"Lust auf ein Partyspiel? SixCup: 6 Becher, 1 Würfel, direkt im Handy-Browser.", url:SHARE_URL };
   try {
     if (navigator.share){ await navigator.share(data); return; }
   } catch(e){ if (e && e.name === "AbortError") return; }
@@ -2183,7 +2570,7 @@ function armed(btn){
 let wakeLock = null;
 async function keepAwake(){ try { if ("wakeLock" in navigator && document.visibilityState === "visible") wakeLock = await navigator.wakeLock.request("screen"); } catch(e){} }
 document.addEventListener("visibilitychange", () => { if (state.phase === "game") keepAwake(); });
-function wipeProofs(){ state.proofs.forEach(x => { dropPhoto(x.photo); (x.frames || []).forEach(dropPhoto); }); state.proofs = []; }
+function wipeProofs(){ const ids = []; state.proofs.forEach(x => { ids.push(x.photo); (x.frames || []).forEach(f => ids.push(f)); }); state.proofs = []; dropUnused(ids, true); }
 
 document.addEventListener("click", async e => {
   const el = e.target.closest("[data-act]"); if (!el) return;
@@ -2204,8 +2591,28 @@ document.addEventListener("click", async e => {
       state.config[+el.dataset.i].type = el.dataset.t; savePrefs(); save();
       const open = document.getElementById("glass-card").open; const y = window.scrollY; render(); document.getElementById("glass-card").open = open; window.scrollTo(0, y); break;
     }
-    case "start-join": if (movedNote){ movedNote = false; LS.set("tw_moved", "1"); } countEvent("spiel-gestartet", "Spiel gestartet"); act(() => eStartJoin()); draft = { name:"", photo:null }; render(); window.scrollTo(0,0); setTimeout(() => { const n = document.getElementById("join-name"); n && n.focus(); }, 60); break;
-    case "to-intro": state.phase = "intro"; state.joining = false; save(); render(); break;
+    case "start-join": {
+      if (resumable()){ if (!armed(el)) return; if (state.phase !== "end") saveRecap(); const old = photoIds(); state.proofs = []; state.players = []; dropUnused(old, false); }
+      if (movedNote){ movedNote = false; LS.set("tw_moved", "1"); }
+      closeSheet(); away = false; view = "home";
+      countEvent("spiel-gestartet", "Spiel gestartet"); act(() => eStartJoin()); draft = { name:"", photo:null }; render(); window.scrollTo(0,0); setTimeout(() => { const n = document.getElementById("join-name"); n && n.focus(); }, 60); break;
+    }
+    case "to-intro": state.phase = "intro"; state.joining = false; view = "home"; away = false; save(); render(); break;
+    case "go": { const v = el.dataset.v; if (v === "recaps" || v === "recap"){ if (!recapsLoaded) await loadRecaps(); storageMB().then(mb => { storageUse = mb; if (view === "recaps" && mb > STORAGE_LIMIT) render(); }); } go(v, el.dataset.arg); break; }
+    case "mode": applyMode(el.dataset.k); render(); readySheet(el.dataset.k); break;
+    case "rd-order": S.order = el.dataset.k; savePrefs(); save(); readySheet(readyMode); break;
+    case "rd-hearts": S.hearts = +el.dataset.k; savePrefs(); save(); readySheet(readyMode); break;
+    case "rd-cards": S.cards = !S.cards; savePrefs(); save(); readySheet(readyMode); break;
+    case "rd-addon": S.addons[el.dataset.k] = !S.addons[el.dataset.k]; savePrefs(); save(); readySheet(readyMode); break;
+    case "resume-game": away = false; view = "home"; render(); if (state.phase === "game") keepAwake(); window.scrollTo(0, 0); break;
+    case "to-home": closeSheet(); away = true; view = "home"; render(); window.scrollTo(0, 0); break;
+    case "view": { const g = recaps.find(r => r.id === viewArg); if (g) openViewer(recapGallery(g).filter(x => photos[x.photo]), Math.max(0, recapGallery(g).filter(x => photos[x.photo]).indexOf(recapGallery(g)[+el.dataset.i]))); break; }
+    case "viewer-close": closeViewer(); break;
+    case "viewer-prev": if (viewer && viewer.i > 0){ viewer.i--; drawViewer(); } break;
+    case "viewer-next": if (viewer && viewer.i < viewer.items.length - 1){ viewer.i++; drawViewer(); } break;
+    case "viewer-save": { if (!viewer) break; const it = viewer.items[viewer.i]; const g = recaps.find(r => r.id === viewArg) || state; try { await saveFile(slug(it.cap) + (it.frames && it.frames.length > 1 ? "_Boomerang.gif" : ".jpg"), it.frames && it.frames.length > 1 ? await makeGif(it.frames.filter(id => photos[id])) : dataToBlob(photos[it.photo])); toast("Gespeichert"); } catch(e){ if (!e || e.code !== "declined") toast("Speichern hat nicht geklappt"); } break; }
+    case "del-recap": if (!armed(el)) return; await deleteRecap(el.dataset.arg); go("recaps"); toast("Spiel gelöscht"); break;
+    case "free-photos": if (!armed(el)) return; await freeOldPhotos(); render(); toast("Alte Fotos gelöscht"); break;
     case "selfie": { const d = await pickPhoto(true, { max:320, square:true }); if (d){ draft.photo = d; render(); } break; }
     case "all-in": act(() => eAllIn()); keepAwake(); break;
     case "peek-done": act(() => ePeekDone()); break;
@@ -2241,7 +2648,7 @@ document.addEventListener("click", async e => {
     case "pick": act(() => ePickPlayer(el.dataset.id)); break;
     case "proof": { const st = state.steps[0]; if (st && st.t === "drink") markCamTip(st.who); takeProof(); break; }
     case "camtip-ok": markCamTip(el.dataset.id); render(); break;
-    case "undo": if (undoStack.length && !rolling){ state = JSON.parse(undoStack.pop()); fxQ.length = 0; fxDone(); loadPhotos(); save(); closeSheet(); render(); } break;
+    case "undo": if (undoStack.length && !rolling){ state = JSON.parse(undoStack.pop()); fxQ.length = 0; fxDone(); loadPhotos().then(ch => ch && render()); save(); closeSheet(); render(); } break;
     case "board": openSheet(rankTitle(), rankRows()); break;
     case "history": historySheet(); break;
     case "rules": rulesSheet(); break;
@@ -2252,7 +2659,7 @@ document.addEventListener("click", async e => {
     case "rephoto": {
       const p = P(el.dataset.id); if (!p) return;
       const d = await pickPhoto(true, { max:320, square:true });
-      if (d){ const id = "av_" + uid(); savePhoto(id, d); if (p.photo) dropPhoto(p.photo); p.photo = id; save(); render(); playerSheet(p.id); }
+      if (d){ const id = "av_" + uid(); savePhoto(id, d); const old = p.photo; p.photo = id; dropUnused([old], true); save(); render(); playerSheet(p.id); }
       break;
     }
     case "end": closeSheet(); act(() => eEnd()); window.scrollTo(0, 0); break;
@@ -2265,16 +2672,24 @@ document.addEventListener("click", async e => {
     case "rematch": wipeProofs(); act(() => eRematch()); window.scrollTo(0, 0); keepAwake(); break;
     case "reset": {
       if (!armed(el)) return;
-      wipeProofs(); state.players.forEach(p => p.photo && dropPhoto(p.photo));
+      const old = photoIds();
       const keep = { settings:state.settings, config:state.config };
       state = fresh(); state.settings = keep.settings; state.config = keep.config;
-      draft = { name:"", photo:null }; undoStack = []; fxQ.length = 0; fxDone(); save(); closeSheet(); render(); window.scrollTo(0, 0); break;
+      dropUnused(old, false);
+      draft = { name:"", photo:null }; undoStack = []; fxQ.length = 0; fxDone(); away = false; view = "home"; save(); closeSheet(); render(); window.scrollTo(0, 0); break;
     }
     case "save-all": saveAll(el); break;
     case "save-one": saveOne(el.dataset.ph); break;
   }
 });
-/* Gläser antippen (Sabotage / Tausch) */
+/* Kein Zoomen mit zwei Fingern, kein Scrollen/Federn auf festen Seiten (Spiel, Eintragen, Start) */
+document.addEventListener("gesturestart", e => e.preventDefault());
+document.addEventListener("gesturechange", e => e.preventDefault());
+document.addEventListener("touchmove", e => {
+  if (e.touches && e.touches.length > 1){ e.preventDefault(); return; }
+  if (document.body.classList.contains("lock") && !(e.target.closest && e.target.closest(".sheet, .overlay, .jscroll, .hscroll"))) e.preventDefault();
+}, { passive:false });
+/* Becher antippen (Sabotage / Tausch) */
 document.addEventListener("click", e => {
   const g = e.target.closest(".app.game .g.pickable"); if (!g) return;
   act(() => ePickGlass(+g.dataset.i));
@@ -2322,7 +2737,10 @@ function boot(data){
   if (state.phase === "peek" && !state.peekQueue.length) state.phase = "game";
   if (state.phase === "end" && !state.players.length) state.phase = "intro";
   state.recapPending = false; state.spin = null;
-  loadPhotos(); render();
+  if (!state.gameId){ state.gameId = uid(); state.started = Date.now(); }
+  render();
+  migratePhotos().then(() => loadPhotos()).then(ch => { if (ch) render(); });
+  loadRecaps().then(() => { if (view === "recaps" || view === "recap") render(); });
   if (state.phase === "game") keepAwake();
 }
 
@@ -2333,7 +2751,8 @@ window.__tw = {
   E:{ startJoin:eStartJoin, join:eJoin, peekDone:ePeekDone, allIn:eAllIn, roll:eRoll, confirm:eConfirm, joker:eJoker, canJoker, playCard:ePlayCard,
       pickPlayer:ePickPlayer, pickGlass:ePickGlass, pickTargets, konter:eKonter, leave:eLeave, rejoin:eRejoin, add:eAdd, end:eEnd, rematch:eRematch },
   render(){ render(); pumpFx(); }, undoStack:() => undoStack,
-  SND, shareState, drawShare:() => drawShare(), openTour:() => openTour(), sfx:n => sfx(n)
+  SND, shareState, drawShare:() => drawShare(), openTour:() => openTour(), sfx:n => sfx(n),
+  get recaps(){ return recaps; }, loadRecaps, saveRecap, idbGet, idbAll, DB, go, get view(){ return view; }, get away(){ return away; }
 };
 try { window.claude?.hot?.snapshot?.(() => ({ state })); } catch(e){}
 window.claude?.hot?.ready ? window.claude.hot.ready(boot) : boot(window.claude?.hot?.data ?? {});

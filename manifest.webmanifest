@@ -1,7 +1,7 @@
 {
   "name": "SixCup",
   "short_name": "SixCup",
-  "description": "Das Trinkspiel mit 6 Gläsern und einem Würfel.",
+  "description": "Das Partyspiel mit 6 Bechern und einem Würfel.",
   "lang": "de",
   "start_url": "./",
   "scope": "./",
