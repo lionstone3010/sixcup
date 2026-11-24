@@ -163,7 +163,17 @@ details.more[open] summary::after{transform:rotate(-135deg)}
 .stamp{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
 .stamp span{font-family:var(--display);font-weight:800;color:#ff3b3b;border:3px solid #ff3b3b;border-radius:8px;padding:0 5px;transform:rotate(-18deg);background:rgba(255,255,255,.85);font-size:12px;line-height:1.3}
 .stamp.big span{font-size:clamp(34px,10vw,54px);border-width:6px;border-radius:14px;padding:0 14px;animation:stampIn .45s cubic-bezier(.2,1.6,.4,1) both}
-@keyframes stampIn{from{transform:rotate(-18deg) scale(2.4);opacity:0}}
+@keyframes stampIn{from{transform:rotate(-18deg) scale(1.7);opacity:0}}
+.app.measuring .stamp{display:none}
+.ko-av{position:relative;justify-content:center;margin:2px 0}
+.app.game .ko-av .av{width:clamp(110px,21dvh,180px);height:clamp(110px,21dvh,180px);font-size:clamp(46px,9dvh,76px);border-width:4px}
+.app.game .ko-av .stamp.big span{font-size:clamp(38px,6.6dvh,62px);border-width:clamp(4px,.7dvh,6px);background:#fff}
+.app.game .verdict .ko-name{font-size:clamp(34px,6dvh,56px);line-height:1}
+.app.game.tight .ko-av .av{width:clamp(96px,17dvh,140px);height:clamp(96px,17dvh,140px);font-size:clamp(40px,7dvh,58px)}
+.app.game.tight .ko-av .stamp.big span{font-size:clamp(32px,5.4dvh,48px)}
+.app.game.tighter .ko-av .av{width:88px;height:88px;font-size:38px}
+.app.game.tighter .ko-av .stamp.big span{font-size:30px;border-width:4px;border-radius:10px;padding:0 8px}
+.app.game.tighter .verdict .ko-name{font-size:30px}
 
 /* Join */
 .join-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
@@ -493,7 +503,7 @@ html:has(body.lock), body.lock{overflow:hidden;overscroll-behavior:none}
 .app.game.tightest .picks .av{width:34px;height:34px;font-size:15px}
 .app.game.tightest .allrow .av{width:30px;height:30px;font-size:13px}
 .app.game.tightest .verdict .whobar .av{width:28px;height:28px}
-.app.game.tightest .ko-av .av{width:72px;height:72px;font-size:30px}
+.app.game.tightest .verdict .whobar.ko-av .av{width:72px;height:72px;font-size:30px}
 .app.game.tightest .ko-av .stamp.big span{font-size:22px;border-width:3px;border-radius:8px;padding:0 6px}
 .app.game.tightest .stage{overflow-y:auto;justify-content:flex-start}
 
@@ -1206,6 +1216,7 @@ function fitJoin(){
 function fitStage(){
   const st = app.querySelector(".stage"); if (!st) return;
   app.classList.remove("tight", "tighter", "tightest");
+  app.classList.add("measuring");
   const over = () => {
     const kids = [...st.children];
     const cs = getComputedStyle(st);
@@ -1214,6 +1225,7 @@ function fitStage(){
     return need > avail - 2 || kids.some(c => c.scrollHeight > c.offsetHeight + 1);
   };
   if (over()){ app.classList.add("tight"); if (over()){ app.classList.add("tighter"); if (over()) app.classList.add("tightest"); } }
+  app.classList.remove("measuring");
 }
 window.addEventListener("resize", () => { if (state.phase === "game" && !rolling) fitStage(); if (state.phase === "join") fitJoin(); });
 
@@ -1438,8 +1450,9 @@ function renderGame(){
   } else if (s.t === "ko"){
     showDie = false;
     const d = P(s.who);
-    verdict = `<span class="whobar koed ko-av" style="position:relative">${avatar(d,"l")}<span class="stamp big"><span>K.O.</span></span></span>
-      <span class="line">${esc(d ? d.name : "")} ${s.voluntary ? "steigt aus" : "hat keine Herzen mehr"} und ist raus.</span>`;
+    verdict = `<span class="whobar koed ko-av">${avatar(d,"l")}<span class="stamp big"><span>K.O.</span></span></span>
+      <span class="word ko-name">${esc(d ? d.name : "")}</span>
+      <span class="line">${s.voluntary ? "steigt aus" : "hat keine Herzen mehr"} und ist raus.</span>`;
     actions = `<button class="btn" data-act="confirm">Weiter</button>`;
   }
 

@@ -3,7 +3,7 @@
 Das Trinkspiel mit 6 Gläsern und einem Würfel, direkt im Handy-Browser. Kein Download, keine Anmeldung: Link öffnen, eintragen, würfeln.
 
 **Spielen:** https://lionstone3010.github.io/sixcup/
-**Ältere Versionen:** [3.2](https://lionstone3010.github.io/sixcup/v3.2/) · [3.1](https://lionstone3010.github.io/sixcup/v3.1/) · [3.0](https://lionstone3010.github.io/sixcup/v3.0/) · noch als Trinkwürfel: [2.3](https://lionstone3010.github.io/trinkwuerfel/v2.3/) · [2.2](https://lionstone3010.github.io/trinkwuerfel/v2.2/) · [2.1](https://lionstone3010.github.io/trinkwuerfel/v2.1/) · [2.0](https://lionstone3010.github.io/trinkwuerfel/v2/) · [1.0](https://lionstone3010.github.io/trinkwuerfel/v1/)
+**Ältere Versionen:** [3.2.1](https://lionstone3010.github.io/sixcup/v3.2.1/) · [3.2](https://lionstone3010.github.io/sixcup/v3.2/) · [3.1](https://lionstone3010.github.io/sixcup/v3.1/) · [3.0](https://lionstone3010.github.io/sixcup/v3.0/) · noch als Trinkwürfel: [2.3](https://lionstone3010.github.io/trinkwuerfel/v2.3/) · [2.2](https://lionstone3010.github.io/trinkwuerfel/v2.2/) · [2.1](https://lionstone3010.github.io/trinkwuerfel/v2.1/) · [2.0](https://lionstone3010.github.io/trinkwuerfel/v2/) · [1.0](https://lionstone3010.github.io/trinkwuerfel/v1/)
 
 **Als App aufs Handy:** Link im Browser öffnen, dann *Teilen → Zum Home-Bildschirm* (iPhone) oder *⋮ → App installieren* (Android).
 
@@ -13,7 +13,12 @@ Das Trinkspiel mit 6 Gläsern und einem Würfel, direkt im Handy-Browser. Kein D
 - Volles Glas gewürfelt: austrinken und sofort nochmal würfeln, bis ein leeres Glas kommt.
 - Wer nicht mehr mag, steigt aus. Wasser zwischendurch hilft. Und niemand muss.
 
-## Neu in Version 3.2.1
+## Neu in Version 3.2.2
+- K.O.-Bildschirm neu: großes Bild der Person mit K.O.-Stempel, Name groß darunter
+- Fehler behoben: Der K.O.-Stempel hat die automatische Größenanpassung gestört, dadurch war das Bild winzig und der Stempel teilweise abgeschnitten
+- Stempel passt auf allen Handygrößen vollständig ins Bild
+
+## Version 3.2.1
 - Besucherzähler zählt nur noch auf der Hauptadresse /sixcup/, nie in den Archiv-Ordnern
 - Jeder Aufruf wird einheitlich als /sixcup gezählt, auch mit Zusätzen in der Adresse
 - Archivierte Versionen (2.1 bis 3.2) zählen nicht mehr mit, am Spiel selbst hat sich dort nichts geändert
