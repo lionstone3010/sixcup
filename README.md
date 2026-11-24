@@ -3,7 +3,7 @@
 Das Trinkspiel mit 6 Gläsern und einem Würfel, direkt im Handy-Browser. Kein Download, keine Anmeldung: Link öffnen, eintragen, würfeln.
 
 **Spielen:** https://lionstone3010.github.io/sixcup/
-**Ältere Versionen (noch als Trinkwürfel):** [2.3](https://lionstone3010.github.io/trinkwuerfel/v2.3/) · [2.2](https://lionstone3010.github.io/trinkwuerfel/v2.2/) · [2.1](https://lionstone3010.github.io/trinkwuerfel/v2.1/) · [2.0](https://lionstone3010.github.io/trinkwuerfel/v2/) · [1.0](https://lionstone3010.github.io/trinkwuerfel/v1/)
+**Ältere Versionen:** [3.0](https://lionstone3010.github.io/sixcup/v3.0/) · noch als Trinkwürfel: [2.3](https://lionstone3010.github.io/trinkwuerfel/v2.3/) · [2.2](https://lionstone3010.github.io/trinkwuerfel/v2.2/) · [2.1](https://lionstone3010.github.io/trinkwuerfel/v2.1/) · [2.0](https://lionstone3010.github.io/trinkwuerfel/v2/) · [1.0](https://lionstone3010.github.io/trinkwuerfel/v1/)
 
 **Als App aufs Handy:** Link im Browser öffnen, dann *Teilen → Zum Home-Bildschirm* (iPhone) oder *⋮ → App installieren* (Android).
 
@@ -13,7 +13,15 @@ Das Trinkspiel mit 6 Gläsern und einem Würfel, direkt im Handy-Browser. Kein D
 - Volles Glas gewürfelt: austrinken und sofort nochmal würfeln, bis ein leeres Glas kommt.
 - Wer nicht mehr mag, steigt aus. Wasser zwischendurch hilft. Und niemand muss.
 
-## Neu in Version 3.0
+## Neu in Version 3.1
+- Foto-Hinweis: Wer zum ersten Mal trinken muss, bekommt eine kurze Erklärung zum Beweisfoto, bis er auf „Verstanden“ oder „Foto“ tippt. Jede Person sieht ihn einmal
+- Kamera-Knopf im Spiel heißt jetzt „Foto“ und leuchtet beim ersten Mal auf
+- Neuer Schritt „Beweisfotos“ in der Einführung und eine Zeile in den Regeln
+- Rangliste im normalen Modus heißt jetzt „Wer hat am meisten getrunken“
+- Im K.O.-Modus: „Wer hat am längsten durchgehalten“, sortiert nach Durchhalten (Herzen übrig, wer zuletzt K.O. ging steht weiter oben, gleichzeitig K.O. = gleicher Platz)
+- Teilen-Karte zeigt dieselbe Überschrift und Reihenfolge
+
+## Version 3.0
 - Neuer Name: Aus Trinkwürfel wird SixCup
 - Neues Logo auf dem Startbildschirm, als App-Symbol und auf der Teilen-Karte
 - Neuer Link: lionstone3010.github.io/sixcup
