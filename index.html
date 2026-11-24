@@ -217,6 +217,12 @@ details.more[open] summary::after{transform:rotate(-135deg)}
 .verdict .word{font-family:var(--display);font-weight:800;font-size:clamp(46px,14vw,66px);line-height:.9;letter-spacing:-.03em;animation:pop .45s cubic-bezier(.2,1.6,.4,1)}
 .verdict .line{font-weight:700;font-size:16px;color:var(--soft)}
 .verdict .whobar{display:flex;align-items:center;gap:8px;font-weight:800;font-size:18px}
+.after-k{background:var(--drink);color:#14151b;font-weight:800;font-size:13px;border-radius:999px;padding:4px 12px;animation:pop .45s cubic-bezier(.2,1.6,.4,1) .1s both}
+.line.why b{font-weight:800}
+.mdice{display:flex;gap:8px;justify-content:center;margin-top:4px}
+.die.md,.app.game .die.md,.app.game.tight .die.md{display:grid;width:34px;height:34px;border-radius:9px;padding:6px;gap:1px;box-shadow:0 3px 0 rgba(0,0,0,.2)}
+.die.md .pip{margin:1px}
+.app.game.tighter .die.md{display:grid;width:26px;height:26px;padding:4px;border-radius:7px}
 .streak{background:#fff;color:var(--pc);font-weight:800;font-size:13px;border-radius:999px;padding:4px 12px;animation:pop .45s cubic-bezier(.2,1.6,.4,1) .1s both}
 @keyframes pop{from{transform:scale(.6);opacity:0}}
 .actions{width:100%;display:flex;flex-direction:column;gap:10px}
@@ -478,6 +484,8 @@ html:has(body.lock), body.lock{overflow:hidden;overscroll-behavior:none}
 .app.game.tightest .g .gn{width:20px;height:20px;font-size:14px}
 .app.game.tightest .verdict .word{font-size:28px}
 .app.game.tightest .verdict .line{font-size:13px}
+.app.game.tightest .streak{display:none}
+.app.game.tightest .after-k{font-size:12px;padding:2px 10px}
 .app.game.tightest .redirect{font-size:11px;padding:2px 10px 2px 2px}
 .app.game.tightest .redirect .av{width:24px;height:24px;font-size:12px}
 .app.game.tightest .pl .hearts{display:none}
@@ -525,8 +533,8 @@ const CARDS = {
 };
 const ADDONS = [
   ["full",     "Volles Haus", "Alle 6 Gläser voll: alle trinken einen Kurzen."],
-  ["doppel",   "Doppel",      "Gleiche Zahl wie der Wurf davor: Kurzer für den Würfler."],
-  ["drilling", "Drilling",    "Dreimal hintereinander dieselbe Zahl: Kurzer für den Würfler."],
+  ["doppel",   "Doppel",      "Du würfelst zweimal hintereinander dieselbe Zahl: Kurzer für dich."],
+  ["drilling", "Drilling",    "Nach einem Doppel würfelt die nächste Person dieselbe Zahl: Kurzer für sie."],
   ["rache",    "Rache",       "Wer 3 Gläser am Stück trinkt, bestimmt, wer das nächste volle Glas übernimmt."],
   ["joker",    "Joker",       "Jeder darf einmal pro Spiel ein volles Glas weitergeben."],
   ["duell",    "Shot-Duell",  "Wer den Shot trinkt, bestimmt jemanden, der einen Kurzen mittrinkt."]
@@ -627,7 +635,7 @@ function fresh(){
   const pr = loadPrefs();
   return { v:3, phase:"intro", joining:false, settings:pr.settings, config:pr.config,
     players:[], glasses:JSON.parse(JSON.stringify(pr.config)), full:[false,false,false,false,false,false],
-    turn:0, steps:[], after:null, redirect:null, rolls:[], rollId:0, eventId:0, lastRoll:5, lastFill:null,
+    turn:0, steps:[], after:null, redirect:null, rolls:[], chain:null, rollId:0, eventId:0, lastRoll:5, lastFill:null,
     history:[], proofs:[], handedFrom:null, bag:[], deck:[], peekQueue:[], peekReturn:"game",
     rage:null, winners:null, spin:null, recapPending:false };
 }
@@ -825,10 +833,24 @@ function eRoll(n){
     state.after = "pass";
   }
   houseRule("num", n); if (state.rollId % 10 === 0) houseRule("every10");
-  let run = 1; for (let k = state.rolls.length - 2; k >= 0 && state.rolls[k] === n; k--) run++;
-  const A = state.settings.addons;
-  if (run >= 3 && A.drilling){ p.drillings++; state.steps.push({ t:"drink", who:p.id, kurz:true, via:"drilling", key:uid() }); emit({ type:"banner", text:"Drilling!", sub:`Dreimal die ${n}. Kurzer für ${p.name}.` }); log({ kind:"drilling", pid:p.id, roll:n }); }
-  else if (run >= 2 && A.doppel){ state.steps.push({ t:"drink", who:p.id, kurz:true, via:"doppel", key:uid() }); emit({ type:"banner", text:"Doppel!", sub:`Zweimal die ${n}. Kurzer für ${p.name}.` }); log({ kind:"doppel", pid:p.id, roll:n }); }
+  /* Doppel: dieselbe Person würfelt zweimal hintereinander dieselbe Zahl.
+     Drilling: direkt nach einem Doppel würfelt die nächste Person (oder dieselbe) diese Zahl auch. Danach beginnt die Zählung neu. */
+  const A = state.settings.addons, ch = state.chain;
+  if (ch && ch.n === n && ch.stage === 2){
+    state.chain = null;
+    if (A.drilling){
+      const by = P(ch.pid); const same = by && by.id === p.id;
+      const sub = same ? `Dreimal die ${n} von ${p.name}. Kurzer für ${p.name}.` : `${by ? by.name : "Jemand"} hatte die ${n} doppelt, jetzt ${p.name} auch. Kurzer für ${p.name}.`;
+      p.drillings++; state.steps.push({ t:"drink", who:p.id, kurz:true, via:"drilling", n, by:ch.pid, key:uid() });
+      emit({ type:"banner", text:"Drilling!", sub, ms:2600 }); log({ kind:"drilling", pid:p.id, roll:n });
+    }
+  } else if (ch && ch.n === n && ch.stage === 1 && ch.pid === p.id){
+    state.chain = { n, pid:p.id, stage:2 };
+    if (A.doppel){
+      state.steps.push({ t:"drink", who:p.id, kurz:true, via:"doppel", n, key:uid() });
+      emit({ type:"banner", text:"Doppel!", sub:`${p.name} hat zweimal die ${n}. Kurzer für ${p.name}.`, ms:2600 }); log({ kind:"doppel", pid:p.id, roll:n });
+    }
+  } else state.chain = { n, pid:p.id, stage:1 };
   return true;
 }
 
@@ -1040,7 +1062,7 @@ function eRematch(){
     card:null, cardUsed:false, jokerUsed:false, konters:0, drillings:0, nearLast:0, nearRefill:0 }));
   state.deck = []; state.players.forEach(p => { p.card = dealCard(); });
   Object.assign(state, { glasses:JSON.parse(JSON.stringify(state.config)), full:[false,false,false,false,false,false], steps:[], after:null, redirect:null,
-    rolls:[], history:[], proofs:[], rage:null, winners:null, lastFill:null, bag:[], joining:false, recapPending:false, handedFrom:null });
+    rolls:[], chain:null, history:[], proofs:[], rage:null, winners:null, lastFill:null, bag:[], joining:false, recapPending:false, handedFrom:null });
   undoStack = [];
   if (state.settings.order === "circle") state.turn = 0;
   else { const ni = pickRandom(null); state.turn = ni < 0 ? 0 : ni; state.spin = { id:state.players[state.turn].id, slow:false }; }
@@ -1146,6 +1168,14 @@ function glassHTML(i, cls, mini){
     <span class="gn">${i + 1}</span>
     ${mini ? "" : `<span class="gl">${esc(TYPES[g.type] + (g.content ? " · " + g.content : ""))}</span>`}
   </div>`;
+}
+function kurzWhy(s, d){
+  const nm = esc(d ? d.name : "?"), n = s.n;
+  const by = s.by && P(s.by), same = !by || (d && by.id === d.id);
+  const text = s.via === "doppel" ? `<b>Doppel:</b> ${nm} hat zweimal die ${n} gewürfelt`
+    : same ? `<b>Drilling:</b> ${nm} hat dreimal die ${n} gewürfelt` : `<b>Drilling:</b> ${esc(by.name)} zweimal die ${n}, ${nm} auch`;
+  const k = s.via === "doppel" ? 2 : 3;
+  return `<span class="line why">${text}</span><span class="mdice" aria-hidden="true">${Array.from({ length:k }, () => `<span class="die md">${dieFace(n)}</span>`).join("")}</span>`;
 }
 const dieFace = n => Array.from({ length:9 }, (_,k) => `<span class="pip ${FACES[n].includes(k) ? "on" : ""}"></span>`).join("");
 
@@ -1379,8 +1409,9 @@ function renderGame(){
     const what = s.kurz ? "einen Kurzen" : `Glas ${s.glass + 1}${g.type === "shot" ? " · den Shot" : ""}${g.content ? " · " + esc(g.content) : ""}`;
     const own = d && d.id === p.id;
     showDie = !!s.main && !camTip;
+    const kd = s.kurz && s.n && (s.via === "doppel" || s.via === "drilling") ? kurzWhy(s, d) : "";
     verdict = `<span class="word">${s.kurz ? "Kurzer!" : "Trinken!"}</span>
-      ${own ? `<span class="line">${what}${reason ? " · " + reason : ""}</span>` : `<span class="whobar">${avatar(d,"s")}${esc(d ? d.name : "?")}</span><span class="line">trinkt ${what}${reason ? " · " + reason : ""}</span>`}
+      ${kd ? (own ? kd : `<span class="whobar">${avatar(d,"s")}${esc(d ? d.name : "?")}</span>${kd}`) : own ? `<span class="line">${what}${reason ? " · " + reason : ""}</span>` : `<span class="whobar">${avatar(d,"s")}${esc(d ? d.name : "?")}</span><span class="line">trinkt ${what}${reason ? " · " + reason : ""}</span>`}
       ${s.main && own && p.streak >= 1 && !s.from ? `<span class="streak">${p.streak + 1}. am Stück</span>` : ""}
       ${camTip ? `<div class="camtip" role="note"><div><b>${esc(camTip.name)}, Beweisfoto?</b> Tipp unten auf <b>Foto</b> für einen kurzen Boomerang.<span class="more"> Alle Fotos gibt's am Ende.</span></div><button class="tipok" data-act="camtip-ok" data-id="${camTip.id}">Verstanden</button></div>` : ""}`;
     const label = state.steps.length === 1 && s.main && state.after === "again" && d && d.id === p.id ? `Getrunken <span class="sub">· nochmal würfeln</span>` : "Getrunken";
@@ -1410,6 +1441,9 @@ function renderGame(){
     actions = `<button class="btn" data-act="confirm">Weiter</button>`;
   }
 
+  // Kommt nach diesem Schritt noch ein Kurzer wegen Doppel/Drilling? Dann gleich ankündigen.
+  const nextK = s && s.main ? state.steps.slice(1).find(x => x.t === "drink" && x.kurz && (x.via === "doppel" || x.via === "drilling")) : null;
+  if (nextK) verdict += `<span class="after-k">Danach: Kurzer wegen ${VIA[nextK.via]}</span>`;
   const rd = state.redirect && P(state.redirect.target);
   app.innerHTML = `
   <div class="top">
@@ -1612,7 +1646,7 @@ function showFx(f){
   if (!f) return;
   fxDone._iv = fxDone._iv || [];
   if (f.type === "banner"){
-    fxShell(`<div class="big">${esc(f.text)}</div><div class="sub">${esc(f.sub || "")}</div>`, 1500); sfx("tusch");
+    fxShell(`<div class="big">${esc(f.text)}</div><div class="sub">${esc(f.sub || "")}</div>`, f.ms || 1500); sfx("tusch");
     buzz([60,40,60]);
   } else if (f.type === "card"){
     const p = P(f.pid); const c = CARDS[f.card]; const t = f.target && P(f.target);
