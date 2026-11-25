@@ -1,4 +1,4 @@
-<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#f2f3f5"><meta name="description" content="SixCup: das Partyspiel mit 6 Bechern und einem Würfel, direkt im Handy-Browser."><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="SixCup"><meta name="application-name" content="SixCup"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png"><style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#f2f3f5"><meta name="description" content="SixCup: das Partyspiel mit 6 Bechern und einem Würfel, direkt im Handy-Browser."><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="SixCup"><meta name="application-name" content="SixCup"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png"><style>:root{box-sizing:border-box;padding-top:calc(env(safe-area-inset-top,0px) + var(--tx,0px));padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
 <title>SixCup</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -420,22 +420,19 @@ html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:10
 body.lock,body.lock .app{touch-action:none}
 body.lock .app.jscroll,body.lock .app.hscroll{touch-action:pan-y}
 .app.pg-home{
-  height:calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
-  height:calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  height:calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - var(--tx, 0px));
+  height:calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - var(--tx, 0px));
   min-height:0;overflow:hidden;gap:clamp(10px,1.9dvh,18px);padding-block:clamp(8px,1.6dvh,16px) clamp(8px,1.4dvh,14px)
 }
 .app.pg-home.hscroll{overflow-y:auto;height:auto;min-height:100%}
-.home-top{display:flex;justify-content:flex-end;margin-bottom:calc(-44px - clamp(10px,1.9dvh,18px));position:relative;z-index:2;pointer-events:none}
-.home-top .ib{pointer-events:auto;background:rgba(255,255,255,.14)}
-.home-top .ib svg{stroke:#fff}
 .pg-home .brand{flex-direction:column;gap:2px;padding:clamp(10px,2.2dvh,20px) 0 clamp(10px,1.8dvh,16px);margin:0}
-.pg-home .brand .logo{width:auto;height:clamp(120px,22dvh,200px);max-width:78%}
+.pg-home .brand .logo{width:auto;height:clamp(100px,17dvh,190px);max-width:78%}
 .brand .claim{color:rgba(255,255,255,.88);font-weight:700;font-size:clamp(14px,2dvh,17px);letter-spacing:.01em}
 .pg-home .lineup{padding:0 4px}
-.pg-home .lineup .g svg{width:auto;height:clamp(34px,6.4dvh,60px);max-width:86%}
+.pg-home .lineup .g svg{width:auto;height:clamp(30px,5.2dvh,56px);max-width:86%}
 .menu-list{display:flex;flex-direction:column;gap:clamp(8px,1.4dvh,12px)}
 .mrow{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;width:100%;box-sizing:border-box;text-align:left;
-  padding:clamp(12px,2dvh,18px) 18px;border-radius:22px;background:#fff;box-shadow:inset 0 0 0 1.5px var(--line);color:var(--ink)}
+  padding:clamp(10px,1.7dvh,18px) 18px;border-radius:22px;background:#fff;box-shadow:inset 0 0 0 1.5px var(--line);color:var(--ink)}
 .mrow svg{width:26px;height:26px;stroke:currentColor}
 .mrow>svg:last-child{width:20px;height:20px;opacity:.55}
 .mrow .mt{display:flex;flex-direction:column;gap:2px;min-width:0}
@@ -449,7 +446,14 @@ body.lock .app.jscroll,body.lock .app.hscroll{touch-action:pan-y}
 .tabbar button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 0;font-weight:700;font-size:14px;color:var(--ink)}
 .tabbar svg{width:26px;height:26px;stroke:currentColor}
 .home-foot{margin-top:auto;display:flex;flex-direction:column;gap:6px}
+.footrow{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px}
+.footrow .ib{background:#fff;box-shadow:inset 0 0 0 1.5px var(--line);color:var(--ink)}
+.footrow .ib svg{stroke:var(--ink);width:20px;height:20px}
+.footrow .lang{width:auto;padding:0 12px 0 10px;border-radius:999px;display:flex;gap:6px;font-weight:800;font-size:13px}
 .home-foot .credit{padding-top:0;margin:0 auto}
+.langs .r{display:flex;align-items:center;padding:12px 0}
+.langs .r.off{opacity:.5}
+.langs .tick{margin-left:auto;font-weight:800;color:var(--pc)}
 .home-foot .privacy{margin:0 auto}
 .app.pg-home.hs1 .lineup{display:none}
 .app.pg-home.hs2 .home-foot .privacy{display:none}
@@ -459,7 +463,14 @@ body.lock .app.jscroll,body.lock .app.hscroll{touch-action:pan-y}
 .app.pg-home.hs3 .brand .claim{display:none}
 .app.pg-home.hs3 .brand .logo{height:clamp(80px,13dvh,120px)}
 .app.pg-home.hs3 .mrow small{font-size:13px}
-.app.pg-home.hs3 .home-foot{display:none}
+.app.pg-home.hs3 .home-foot .credit{display:none}
+.app.pg-home.hs3 .footrow .ib{width:36px;height:36px}
+.app.pg-home.hs3 .footrow .lang{width:auto}
+.app.pg-home.hs3 .moved{font-size:12.5px;padding:8px 6px 8px 12px;margin-top:0}
+.app.pg-home.hs3 .moved .ib{width:34px;height:34px}
+.app.pg-home.hs3 .menu-list{gap:6px}
+.app.pg-home.hs3 .mrow{padding:8px 14px}
+.app.pg-home.hs3 .mrow svg{width:22px;height:22px}
 .app.pg-home.hs3 .tabbar button{flex-direction:row;justify-content:center;font-size:13px}
 .app.pg-home.hs3 .tabbar svg{width:20px;height:20px}
 .pg-top{display:flex;align-items:center;gap:12px}
@@ -504,7 +515,7 @@ body.lock .app.jscroll,body.lock .app.hscroll{touch-action:pan-y}
 .btn.danger{color:#c4281a;box-shadow:inset 0 0 0 2px #f0c9c4}
 .btn.danger svg{width:20px;height:20px;stroke:currentColor}
 .viewer{position:fixed;inset:0;z-index:30;background:#000;color:#fff;display:flex;flex-direction:column;
-  padding:calc(10px + env(safe-area-inset-top, 0px)) 14px calc(14px + env(safe-area-inset-bottom, 0px));box-sizing:border-box;gap:10px;touch-action:none}
+  padding:calc(10px + env(safe-area-inset-top, 0px) + var(--tx, 0px)) 14px calc(14px + env(safe-area-inset-bottom, 0px));box-sizing:border-box;gap:10px;touch-action:none}
 .viewer .vtop{display:flex;justify-content:space-between;align-items:center;font-weight:800}
 .viewer .ib{background:rgba(255,255,255,.16)}
 .viewer .ib svg{stroke:#fff}
@@ -516,11 +527,13 @@ body.lock .app.jscroll,body.lock .app.hscroll{touch-action:pan-y}
 .viewer .vnav{display:flex;justify-content:center;gap:18px}
 .verdict .word.long{font-size:clamp(30px,10.5vw,58px)}
 .app.game .verdict .word.long{font-size:min(clamp(30px,6.6dvh,58px),10.5vw)}
+/* iPhone: Unter der Statusleiste liegt ein weicher Unschärfe-Streifen. Inhalt beginnt darunter. */
+html.ios-edge{--tx:16px}
 /* Ein-Screen-Layouts */
 html:has(body.lock), body.lock{overflow:hidden;overscroll-behavior:none}
 .app.game,.app.join,.app.peek{
-  height:calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
-  height:calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  height:calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - var(--tx, 0px));
+  height:calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - var(--tx, 0px));
   min-height:0;overflow:hidden
 }
 .app.game{padding-block:12px 10px;gap:clamp(6px,1.4dvh,16px)}
@@ -628,14 +641,14 @@ html:has(body.lock), body.lock{overflow:hidden;overscroll-behavior:none}
 /* =====================================================================
    Konstanten & Helfer
    ===================================================================== */
-const TYPES = { glas:"Becher", shot:"Gold ×2", bier:"Tasse" };
-const TYPE_LONG = { glas:"Becher", shot:"goldener Becher", bier:"Tasse" };
+const TYPES = { glas:"Becher", shot:"Gold ×2" };
+const TYPE_LONG = { glas:"Becher", shot:"goldener Becher" };
+const fixCups = list => Array.isArray(list) ? list.map(g => Object.assign({}, g, { type: TYPES[g && g.type] ? g.type : "glas" })) : list;
 const FACES = {1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]};
 const PALETTE = ["#2b50e8","#e23d28","#0e8a5c","#7a35e8","#d0287a","#087f99","#c25a00","#3a3f9e"];
 const SHAPES = {
   glas:{ body:"M7 6 H57 L51 76 H13 Z", liq:[0,22,64,60], foam:null, extra:"", shine:"M15 16 L18 64" },
   shot:{ body:"M7 6 H57 L51 76 H13 Z", liq:[0,22,64,60], foam:null, extra:'<polygon class="star" points="32.0,36.0 34.7,43.3 42.5,43.6 36.4,48.4 38.5,55.9 32.0,51.6 25.5,55.9 27.6,48.4 21.5,43.6 29.3,43.3"/>', shine:"M15 16 L18 64" },
-  bier:{ body:"M11 10 H45 V72 Q45 77 40 77 H16 Q11 77 11 72 Z", liq:[0,22,64,60], foam:null, extra:'<path class="deco" d="M45 24 H52 Q58 24 58 30 V50 Q58 56 52 56 H45"/>', shine:"M18 20 V64" }
 };
 const CARDS = {
   sabotage:    { name:"Sabotage",    kind:"attack", text:"Ein leerer Becher deiner Wahl wird sofort voll." },
@@ -743,7 +756,7 @@ function loadPrefs(){
       if (!ORDERS[s.order]) s.order = "circle";
       if (![3,4,5].includes(s.hearts)) s.hearts = 3;
       s.rules = Array.isArray(raw.settings.rules) ? raw.settings.rules.filter(r => r && RULE_TRIGS[r.trig] && r.text).slice(0, 8) : [];
-      return { settings:s, config: Array.isArray(raw.config) && raw.config.length === 6 ? raw.config : defaultGlasses() };
+      return { settings:s, config: Array.isArray(raw.config) && raw.config.length === 6 ? fixCups(raw.config) : defaultGlasses() };
     }
   } catch(e){}
   return { settings:DEF_SETTINGS(), config:defaultGlasses() };
@@ -1308,7 +1321,18 @@ function setTheme(color){
   document.body.classList.toggle("color", !!color);
   if (color) document.body.style.setProperty("--pc", color);
   else document.body.style.removeProperty("--pc");
+  // Leiste oben (Statusleiste/Browser) in der Farbe des Hintergrunds
+  try { let m = document.querySelector('meta[name="theme-color"]'); if (!m){ m = document.createElement("meta"); m.name = "theme-color"; document.head.appendChild(m); } const c = color || "#f2f3f5"; if (m.content !== c) m.content = c; } catch(e){}
 }
+/* iPhone mit Notch/Dynamic Island: etwas mehr Abstand unter der Statusleiste */
+(function(){
+  try {
+    const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    const probe = document.createElement("div"); probe.style.cssText = "position:fixed;top:0;height:0;padding-top:env(safe-area-inset-top,0px);visibility:hidden";
+    document.body.appendChild(probe); const top = parseFloat(getComputedStyle(probe).paddingTop) || 0; probe.remove();
+    if (ios && top > 20) document.documentElement.classList.add("ios-edge");
+  } catch(e){}
+})();
 function render(){
   if (headless) return;
   const pages = state.phase === "intro" || away;
@@ -1319,6 +1343,7 @@ function render(){
     if (view === "home"){ fitHome(); if (!tourSeen && !LS.get("tw_tour")){ tourSeen = true; openTour(); } }
     return;
   }
+  delete app.dataset.pk;
   if (state.phase === "intro"){ setTheme(null); renderPage(); }
   else if (state.phase === "join"){ setTheme(PALETTE[state.players.length % PALETTE.length]); renderJoin(); fitJoin(); }
   else if (state.phase === "peek"){ setTheme(colorOf(P(state.peekQueue[0]))); renderPeek(); }
@@ -1374,10 +1399,31 @@ const PI = {
   guide: svgI('<path d="M4 5.5C6.5 4.5 9.5 4.5 12 6c2.5-1.5 5.5-1.5 8-.5V19c-2.5-1-5.5-1-8 .5-2.5-1.5-5.5-1.5-8-.5z"/><path d="M12 6v13.5"/>'),
   recaps:svgI('<rect x="3" y="5" width="18" height="15" rx="3"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-5-8 9"/>'),
   share: svgI('<circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="M8.2 10.8l7.6-4.1M8.2 13.2l7.6 4.1"/>'),
+  globe: svgI('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.9 5.6 3.9 9s-1.3 6.4-3.9 9c-2.6-2.6-3.9-5.6-3.9-9S9.4 5.6 12 3z"/>'),
   trash: svgI('<path d="M4 7h16M9 7V4.5h6V7M6.5 7l1 13h9l1-13"/>')
 };
 const cred = () => `<p class="credit"><svg viewBox="0 0 64 80" aria-hidden="true"><defs><clipPath id="cr"><path d="M9 8 H55 L49 76 H15 Z"/></clipPath></defs><rect clip-path="url(#cr)" x="0" y="40" width="64" height="40" fill="var(--drink)"/><path d="M9 8 H55 L49 76 H15 Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/></svg><span>created by</span><b>Lion</b></p>`;
 
+/* Seiten ohne Flackern aktualisieren: nur geänderte Teile anfassen statt alles neu aufzubauen */
+function morph(a, b){
+  if (a.nodeType !== b.nodeType || a.nodeName !== b.nodeName){ a.replaceWith(b); return; }
+  if (a.nodeType === 3 || a.nodeType === 8){ if (a.nodeValue !== b.nodeValue) a.nodeValue = b.nodeValue; return; }
+  if (a.nodeType !== 1) return;
+  for (const at of [...a.attributes]) if (!b.hasAttribute(at.name) && !(a.tagName === "DETAILS" && at.name === "open")) a.removeAttribute(at.name);
+  for (const at of [...b.attributes]) if (a.getAttribute(at.name) !== at.value) a.setAttribute(at.name, at.value);
+  if (a.tagName === "INPUT" && a !== document.activeElement){ const v = b.getAttribute("value") || ""; if (a.value !== v) a.value = v; }
+  morphKids(a, b);
+}
+function morphKids(a, b){
+  const ac = [...a.childNodes], bc = [...b.childNodes];
+  for (let i = 0; i < bc.length; i++){ if (i < ac.length) morph(ac[i], bc[i]); else a.appendChild(bc[i]); }
+  for (let i = ac.length - 1; i >= bc.length; i--) ac[i].remove();
+}
+function paint(html){
+  const key = view + ":" + (viewArg || "");
+  if (app.dataset.pk === key){ const t = document.createElement("div"); t.innerHTML = html; morphKids(app, t); }
+  else { app.innerHTML = html; app.dataset.pk = key; }
+}
 function renderPage(){
   if (view === "modes") return renderModes();
   if (view === "custom") return renderCustom();
@@ -1392,9 +1438,8 @@ function renderHome(){
   const S = state.settings; const rs = resumable();
   const ps = state.players.filter(p => p.active).map(p => p.name);
   const resumeSub = state.phase === "end" ? "Endstand ansehen" : (ps.slice(0, 3).join(", ") + (ps.length > 3 ? " +" + (ps.length - 3) : "") + (state.rollId ? " · Wurf " + state.rollId : ""));
-  app.innerHTML = `
+  paint(`
   ${movedNote ? `<div class="moved" role="status"><div><b>Trinkwürfel heißt jetzt SixCup.</b> Gleiches Spiel, neuer Name. Für das neue Symbol einfach neu zum Home-Bildschirm hinzufügen.</div><button class="ib" data-act="moved-ok" aria-label="Hinweis schließen">${ICON.close}</button></div>` : ""}
-  <div class="home-top"><button class="ib snd" data-act="sound" aria-label="${SND.on ? "Ton aus" : "Ton an"}" aria-pressed="${SND.on}">${SND.on ? ICON.soundOn : ICON.soundOff}</button></div>
   <div class="brand"><img class="logo" src="${LOGO_SRC}" alt="SixCup" width="720" height="602" decoding="async"><span class="claim">6 Becher. 1 Würfel.</span></div>
   <div class="lineup">${[0,1,2,3,4,5].map(i => glassHTML(i, "", true)).join("")}</div>
   <nav class="menu-list" aria-label="Hauptmenü">
@@ -1408,8 +1453,13 @@ function renderHome(){
     <button data-act="go" data-v="recaps">${PI.recaps}<span>Rückblicke</span></button>
     ${canShareCard() ? `<button data-act="share-link">${PI.share}<span>Teilen</span></button>` : ""}
   </div>
-  <div class="home-foot">${cred()}
-  ${counting ? `<p class="privacy">Zählt Aufrufe und Spielstarts anonym, ohne Cookies. Namen, Fotos und Spielstände bleiben auf deinem Handy.</p>` : ""}</div>`;
+  <div class="home-foot">
+    <div class="footrow">
+      <button class="ib lang" data-act="lang" aria-label="Sprache: Deutsch">${PI.globe}<span>DE</span></button>
+      ${cred()}
+      <button class="ib snd" data-act="sound" aria-label="${SND.on ? "Ton aus" : "Ton an"}" aria-pressed="${SND.on}">${SND.on ? ICON.soundOn : ICON.soundOff}</button>
+    </div>
+    </div>`);
 }
 /* Start passt ohne Scrollen: erst Becherreihe weg, dann alles kompakter, im Notfall scrollen statt abschneiden */
 function fitHome(){
@@ -1425,9 +1475,9 @@ const MODES = [
   ["ko", "K.O.", "Jeder hat Herzen. Wer zuletzt übrig ist, gewinnt.", svgI('<path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.4a4.3 4.3 0 0 1 7.5 2.4C19.5 15.4 12 20 12 20z" fill="currentColor"/>')]
 ];
 function renderModes(){
-  app.innerHTML = `${back("home", "Spielmodi")}
+  paint(`${back("home", "Spielmodi")}
   <div class="modes">${MODES.map(([k, n, d, ic]) => `<button class="mode" data-act="mode" data-k="${k}"><span class="mic">${ic}</span><span class="mt"><b>${n}</b><small>${d}</small></span>${chev}</button>`).join("")}</div>
-  <p class="note">Danach kannst du Karten und Add-ons an- oder ausschalten.</p>`;
+  <p class="note">Danach kannst du Karten und Add-ons an- oder ausschalten.</p>`);
 }
 let readyMode = "classic";
 function applyMode(k){
@@ -1440,7 +1490,7 @@ function applyMode(k){
 function readySheet(k){
   readyMode = k; const S = state.settings;
   const segBtns = (act, opts, curV) => `<div class="seg full" role="group">${opts.map(([v, l]) => `<button data-act="${act}" data-k="${v}" aria-pressed="${curV === v}">${l}</button>`).join("")}</div>`;
-  openSheet("Bereit?", `
+  const body = `
     <div class="ready">
       <div class="rhead"><b>${esc(modeName(S))}</b><span class="soft">${k === "ko" ? "Jeder Becher kostet ein Herz, der goldene zwei, jeder Extra-Schluck eins." : (S.order === "chaos" ? ORDERS.chaos[1] : ORDERS[S.order][1])}</span></div>
       ${k === "zufall" ? `<div class="ropt"><span class="t">Zufall</span>${segBtns("rd-order", [["random","Normal"],["chaos","Chaos"]], S.order)}<span class="d">${S.order === "chaos" ? "Purer Zufall, auch zweimal hintereinander möglich." : "Jede Runde neu gemischt, jeder kommt einmal dran."}</span></div>` : ""}
@@ -1450,14 +1500,17 @@ function readySheet(k){
       <div class="ropt"><span class="t">Add-ons</span><div class="chips">${ADDONS.map(([a, n]) => `<button class="chip" data-act="rd-addon" data-k="${a}" aria-pressed="${!!S.addons[a]}">${n}</button>`).join("")}</div>
         <span class="d">${ADDONS.filter(a => S.addons[a[0]]).map(a => `<b>${a[1]}:</b> ${a[2]}`).join("<br>") || "Keine Add-ons. Ganz klassisch."}</span></div>
       <button class="btn" data-act="start-join" ${resumable() ? 'data-confirm="Laufendes Spiel beenden? Nochmal tippen"' : ""}>Los geht's</button>
-    </div>`);
+    </div>`;
+  const cur = sheetRoot.querySelector(".sheet .ready");
+  if (cur){ const t = document.createElement("div"); t.innerHTML = body.trim(); morph(cur, t.firstElementChild); }
+  else openSheet("Bereit?", body);
 }
 
 /* ---- Eigenes Spiel: alle Einstellungen ---- */
 function renderCustom(){
   const S = state.settings;
   const gold = state.config.filter(g => g.type === "shot").length;
-  app.innerHTML = `${back("home", "Eigenes Spiel")}
+  paint(`${back("home", "Eigenes Spiel")}
   <section class="setup" aria-label="Spiel einstellen">
     <div class="opt">
       <span class="t">Reihenfolge</span><span></span>
@@ -1502,12 +1555,12 @@ function renderCustom(){
     <div class="rule-row"><div class="rule-txt"><span class="rule-trig">${esc(ruleLabel(r))}</span><span>${esc(r.text)}</span></div><button class="ib rule-del" data-act="rule-del" data-i="${i}" aria-label="Regel löschen">${ICON.close}</button></div>`).join("")}
     ${(S.rules || []).length < 8 ? `<button class="btn alt" style="margin-top:10px" data-act="rule-new">${ICON.plus} Hausregel hinzufügen</button>` : `<p class="note">Maximal 8 Hausregeln.</p>`}
   </section>
-  <div class="startbar"><button class="btn" data-act="start-join" ${resumable() ? 'data-confirm="Laufendes Spiel beenden? Nochmal tippen"' : ""}>Los geht's</button></div>`;
+  <div class="startbar"><button class="btn" data-act="start-join" ${resumable() ? 'data-confirm="Laufendes Spiel beenden? Nochmal tippen"' : ""}>Los geht's</button></div>`);
 }
 
 /* ---- Anleitung ---- */
 function renderGuide(){
-  app.innerHTML = `${back("home", "Anleitung")}
+  paint(`${back("home", "Anleitung")}
   <section class="section">
     <span class="eyebrow">So geht's</span>
     <ul class="rules">
@@ -1535,7 +1588,11 @@ function renderGuide(){
     <div class="rows plain">${ADDONS.map(a => `<div class="r"><span class="nm">${a[1]}<small>${a[2]}</small></span></div>`).join("")}</div>
   </section>
   <button class="btn alt" data-act="tour">Einführung ansehen</button>
-  ${cred()}`;
+  <section class="section">
+    <span class="eyebrow">Datenschutz</span>
+    <p class="d soft" style="font-size:14px">Namen, Selfies, Fotos und Spielstände bleiben nur auf deinem Handy und werden nie hochgeladen.${counting ? " Die Webseite zählt Aufrufe und Spielstarts anonym mit GoatCounter, ohne Cookies." : ""}</p>
+  </section>
+  ${cred()}`);
 }
 
 /* =====================================================================
@@ -1638,7 +1695,7 @@ function recapHeadline(g){
 function renderRecaps(){
   const games = recaps.length, cups = recaps.reduce((s, r) => s + r.players.reduce((a, p) => a + tot(p), 0), 0);
   const pics = recaps.reduce((s, r) => s + r.proofs.length + r.players.filter(p => p.photo).length, 0);
-  app.innerHTML = `${back("home", "Rückblicke")}
+  paint(`${back("home", "Rückblicke")}
   <div class="totals"><div><b>${games}</b><span>${games === 1 ? "Spiel" : "Spiele"}</span></div><div><b>${cups}</b><span>Becher</span></div><div><b>${pics}</b><span>Fotos</span></div></div>
   ${storageUse != null && storageUse > STORAGE_LIMIT ? `<div class="warnbox"><b>Speicher fast voll:</b> Die Fotos belegen über ${STORAGE_LIMIT} MB. Sollen die Fotos der ältesten Spiele gelöscht werden? Ergebnisse und Ranglisten bleiben.<button class="btn alt" data-act="free-photos" data-confirm="Sicher? Nochmal tippen">Alte Fotos löschen</button></div>` : ""}
   ${!recapsLoaded ? `<p class="empty">Wird geladen …</p>` : games ? `<div class="glist">${recaps.map(r => `
@@ -1647,7 +1704,7 @@ function renderRecaps(){
       <span class="avs">${r.players.slice(0, 7).map(p => avatar(p, "s")).join("")}${r.players.length > 7 ? `<span class="more">+${r.players.length - 7}</span>` : ""}</span>
       <span class="gsub">${esc(recapHeadline(r))}${r.proofs.length ? ` · ${r.proofs.length} ${r.proofs.length === 1 ? "Foto" : "Fotos"}` : ""}</span>
     </button>`).join("")}</div>` : `<p class="empty">Noch keine Spiele. Nach jedem Spiel landet hier ein Rückblick mit Rangliste, Auszeichnungen und allen Fotos.</p>`}
-  <p class="note">Alles bleibt nur auf diesem Handy.</p>`;
+  <p class="note">Alles bleibt nur auf diesem Handy.</p>`);
   if (recaps.length) loadPhotos([].concat(...recaps.map(r => r.players.map(p => p.photo)))).then(ch => { if (ch && view === "recaps" && (state.phase === "intro" || away)) render(); });
 }
 function recapGallery(g){
@@ -1662,7 +1719,7 @@ function renderRecap(id){
   const W = (g.winners || []).map(x => gP(g, x)).filter(Boolean);
   const rg = g.rage && gP(g, g.rage.pid);
   const items = recapGallery(g); const shown = items.filter(x => photos[x.photo]);
-  app.innerHTML = `${back("recaps", fmtDate(g.started || g.t))}
+  paint(`${back("recaps", fmtDate(g.started || g.t))}
   <p class="soft" style="margin-top:-8px">${esc(modeName(g.settings))} · ${g.players.length} Leute · ${total} Becher · ${g.rolls || 0} Würfe</p>
   ${W.length ? `<div class="winner"><span class="crown">Last Man Standing</span><div class="avs">${W.map(p => avatar(p,"l")).join("")}</div><h2>${W.map(p => esc(p.name)).join(" & ")}</h2></div>` : ""}
   ${aw.length ? `<div class="awards">${aw.map(a => `<div class="award"><span class="eyebrow">${a[0]}</span><span class="val">${a[2]}</span><div class="who">${avatar(a[1],"s")}<span>${esc(a[1].name)}</span></div></div>`).join("")}</div>` : ""}
@@ -1673,7 +1730,7 @@ function renderRecap(id){
     ${g.noPhotos ? `<p class="empty">Die Fotos dieses Spiels wurden gelöscht, um Platz zu sparen.</p>` : items.length ? `<div class="gallery rg">${items.map((x, i) => `<figure data-act="view" data-i="${i}">${photos[x.photo] ? (x.frames && x.frames.length > 1 ? `<img src="${photos[x.photo]}" data-boom="${x.frames.join(",")}" alt="">` : `<img src="${photos[x.photo]}" alt="">`) : `<span class="ph-load"></span>`}${x.frames && x.frames.length > 1 ? `<span class="boomtag">BOOMERANG</span>` : ""}<figcaption><span class="cap">${esc(x.cap)}<small>${esc(x.sub || "")}</small></span></figcaption></figure>`).join("")}</div>` : `<p class="empty">In diesem Spiel wurden keine Fotos gemacht.</p>`}
   </div>
   ${shown.length && canDownload() ? `<div class="stack"><button class="btn" data-act="save-all" data-g="${esc(g.id)}">${ICON.down} Alle Fotos herunterladen</button><p class="dl-msg" id="dl-msg" aria-live="polite"></p></div>` : ""}
-  <button class="btn alt danger" data-act="del-recap" data-arg="${esc(g.id)}" data-confirm="Spiel und Fotos löschen? Nochmal tippen">${PI.trash} Dieses Spiel löschen</button>`;
+  <button class="btn alt danger" data-act="del-recap" data-arg="${esc(g.id)}" data-confirm="Spiel und Fotos löschen? Nochmal tippen">${PI.trash} Dieses Spiel löschen</button>`);
   const need = recapIds(g).filter(x => !photos[x]);
   if (need.length) loadPhotos(need).then(ch => { if (ch && view === "recap" && viewArg === id) render(); });
 }
@@ -2583,13 +2640,13 @@ document.addEventListener("click", async e => {
       const k = el.dataset.k;
       if (k === "sound"){ SND.on = !SND.on; LS.set("tw_sound", SND.on ? "1" : "0"); if (SND.on) sfx("ding"); }
       else if (k === "ko") S.ko = !S.ko; else if (k === "cards") S.cards = !S.cards; else if (k.startsWith("a_")) S.addons[k.slice(2)] = !S.addons[k.slice(2)];
-      savePrefs(); save(); const y = window.scrollY; render(); window.scrollTo(0, y); break;
+      savePrefs(); save(); render(); break;
     }
-    case "order": S.order = el.dataset.k; savePrefs(); save(); { const y = window.scrollY; render(); window.scrollTo(0, y); } break;
-    case "hearts": S.hearts = +el.dataset.k; savePrefs(); save(); { const y = window.scrollY; render(); window.scrollTo(0, y); } break;
+    case "order": S.order = el.dataset.k; savePrefs(); save(); render(); break;
+    case "hearts": S.hearts = +el.dataset.k; savePrefs(); save(); render(); break;
     case "gtype": {
       state.config[+el.dataset.i].type = el.dataset.t; savePrefs(); save();
-      const open = document.getElementById("glass-card").open; const y = window.scrollY; render(); document.getElementById("glass-card").open = open; window.scrollTo(0, y); break;
+      render(); break;
     }
     case "start-join": {
       if (resumable()){ if (!armed(el)) return; if (state.phase !== "end") saveRecap(); const old = photoIds(); state.proofs = []; state.players = []; dropUnused(old, false); }
@@ -2600,6 +2657,7 @@ document.addEventListener("click", async e => {
     case "to-intro": state.phase = "intro"; state.joining = false; view = "home"; away = false; save(); render(); break;
     case "go": { const v = el.dataset.v; if (v === "recaps" || v === "recap"){ if (!recapsLoaded) await loadRecaps(); storageMB().then(mb => { storageUse = mb; if (view === "recaps" && mb > STORAGE_LIMIT) render(); }); } go(v, el.dataset.arg); break; }
     case "mode": applyMode(el.dataset.k); render(); readySheet(el.dataset.k); break;
+    case "lang": openSheet("Sprache", `<div class="rows langs"><div class="r"><span class="nm">Deutsch<small>Aktiv</small></span><span class="tick">✓</span></div><div class="r off"><span class="nm">English<small>Kommt bald</small></span></div></div>`); break;
     case "rd-order": S.order = el.dataset.k; savePrefs(); save(); readySheet(readyMode); break;
     case "rd-hearts": S.hearts = +el.dataset.k; savePrefs(); save(); readySheet(readyMode); break;
     case "rd-cards": S.cards = !S.cards; savePrefs(); save(); readySheet(readyMode); break;
@@ -2733,6 +2791,7 @@ function boot(data){
   let loaded = data && data.state;
   if (!loaded){ const raw = LS.get("tw_state"); if (raw){ try { loaded = JSON.parse(raw); } catch(e){} } }
   if (loaded && loaded.v === 3 && Array.isArray(loaded.players)) state = Object.assign(fresh(), loaded);
+  state.config = fixCups(state.config); state.glasses = fixCups(state.glasses);
   if (state.phase === "game" && !cur()) state.phase = state.players.length ? "end" : "intro";
   if (state.phase === "peek" && !state.peekQueue.length) state.phase = "game";
   if (state.phase === "end" && !state.players.length) state.phase = "intro";
