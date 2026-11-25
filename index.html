@@ -532,6 +532,10 @@ body.lock .app.jscroll,body.lock .app.hscroll{touch-action:pan-y}
 /* iPhone: Unter der Statusleiste liegt ein weicher Unschärfe-Streifen. Inhalt beginnt darunter.
    Der Zusatzabstand wächst mit der Statusleiste: Dynamic Island etwa 28px, ältere iPhones weniger, Android 0. */
 :root{--tx:calc(env(safe-area-inset-top, 0px) * 0.45)}
+/* iOS 26 legt unter die Statusleiste einen weichen Unschärfe-Verlauf über den Inhalt.
+   Ein fester, deckender Streifen in Hintergrundfarbe an der Oberkante wird vom System als Kopfleiste erkannt:
+   Dann nimmt iOS dessen Farbe statt der Unschärfe. Ohne Notch (Android, Desktop) ist er 0 hoch. */
+.topband{position:fixed;top:0;left:0;right:0;height:env(safe-area-inset-top, 0px);background:var(--bg);transition:background-color .5s ease;z-index:4;pointer-events:none}
 /* Ein-Screen-Layouts */
 html:has(body.lock), body.lock{overflow:hidden;overscroll-behavior:none}
 .app.game,.app.join,.app.peek{
@@ -552,7 +556,7 @@ html:has(body.lock), body.lock{overflow:hidden;overscroll-behavior:none}
 .app.game .btn{min-height:clamp(46px,6.4dvh,58px)}
 .app.game .mini{min-height:clamp(34px,5dvh,40px)}
 .app.game .picks .av{width:clamp(38px,6dvh,50px);height:clamp(38px,6dvh,50px)}
-.app.join{padding-block:14px 12px;gap:clamp(10px,2dvh,22px)}
+.app.join{padding-block:14px 12px;--jg:clamp(10px,2dvh,22px);gap:var(--jg)}
 .app.join>*{flex:none}
 .app.join .join-head h1{font-size:clamp(36px,7.5dvh,64px)}
 .app.join .handoff{font-size:14px;padding:10px 12px}
@@ -565,10 +569,16 @@ html:has(body.lock), body.lock{overflow:hidden;overscroll-behavior:none}
 .app.join .seated::-webkit-scrollbar{display:none}
 .app.join .seat{flex:none}
 .app.join .seat .av{width:clamp(38px,6dvh,50px);height:clamp(38px,6dvh,50px)}
-.app.join .bottom{margin-top:auto}
+/* Eintragen: Block von „Spieler X“ bis zum letzten Element steht mittig, gleicher Abstand oben und unten.
+   Unterer Knopf (Zurück / Alle sind drin) bleibt unten. Reicht der Platz nicht, werden die Abstände 0. */
+.app.join .join-head{margin-top:auto}
+.app.join .jend{margin-bottom:auto}
+/* Mit unterem Knopf liegt zwischen Block und Knopf zusätzlich der Flex-Abstand: oben genauso viel ergänzen */
+.app.join:has(>.bottom) .join-head{padding-top:var(--jg)}
+.app.join.jscroll .join-head{padding-top:0}
 /* Nur beim ersten Spieler steht alles mittig, danach oben wie gewohnt */
-.app.join.first .join-head{margin-top:auto}
-.app.join.jt .join-head,.app.join.jscroll .join-head{margin-top:0}
+.app.join.jscroll .join-head{margin-top:0}
+.app.join.jscroll .jend{margin-bottom:0}
 /* Neben dem Rückgängig-Knopf bleibt „Wer bist du?“ einzeilig */
 .app.join .join-head h1{white-space:nowrap;font-size:min(clamp(36px,7.5dvh,64px), calc((100vw - 40px) / 6))}
 .app.join .join-head.has-undo h1{font-size:min(clamp(36px,7.5dvh,64px), calc((100vw - 104px) / 6))}
@@ -576,7 +586,7 @@ html:has(body.lock), body.lock{overflow:hidden;overscroll-behavior:none}
 .app.join.jt .join-head.has-undo h1{font-size:min(clamp(30px,6dvh,48px), calc((100vw - 104px) / 6))}
 .app.join.jt2 .join-head h1{font-size:min(30px, calc((100vw - 104px) / 6))}
 @media (max-height:640px){ .app.join .bottom .note{display:none} }
-.app.join.jt{gap:10px;padding-block:10px 10px}
+.app.join.jt{--jg:10px;padding-block:10px 10px}
 .app.join.jt .join-head h1{font-size:clamp(30px,6dvh,48px)}
 .app.join.jt .handoff{font-size:13px;padding:8px 12px}
 .app.join.jt #join-form{gap:10px!important}
@@ -640,6 +650,7 @@ html:has(body.lock), body.lock{overflow:hidden;overscroll-behavior:none}
 </style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<div class="topband" aria-hidden="true"></div>
 <div class="flash" id="flash"></div>
 <div class="app" id="app"></div>
 <div id="sheet-root"></div>
@@ -1349,7 +1360,7 @@ function render(){
   }
   delete app.dataset.pk;
   if (state.phase === "intro"){ setTheme(null); renderPage(); }
-  else if (state.phase === "join"){ setTheme(PALETTE[state.players.length % PALETTE.length]); app.classList.toggle("first", !state.players.length); renderJoin(); fitJoin(); }
+  else if (state.phase === "join"){ setTheme(PALETTE[state.players.length % PALETTE.length]); renderJoin(); fitJoin(); }
   else if (state.phase === "peek"){ setTheme(colorOf(P(state.peekQueue[0]))); renderPeek(); }
   else if (state.phase === "game"){ setTheme(colorOf(cur())); renderGame(); fitStage(); }
   else { setTheme(null); renderEnd(); saveRecap(); }
@@ -1770,7 +1781,7 @@ function renderJoin(){
     ${undoStack.length ? `<button class="ib" data-act="undo" aria-label="Rückgängig">${ICON.undo}</button>` : ""}
   </div>
   ${from ? `<p class="handoff">${esc(from.name)} hat weitergegeben. Neu am Tisch? Trag dich ein und würfel direkt los.</p>` : ""}
-  <form class="stack" id="join-form" autocomplete="off" style="gap:16px">
+  <form class="stack${state.players.length ? "" : " jend"}" id="join-form" autocomplete="off" style="gap:16px">
     <button type="button" class="selfie" data-act="selfie" aria-label="Selfie aufnehmen">
       ${draft.photo ? `<img src="${draft.photo}" alt="Dein Selfie">` : `<span>${ICON.cam}Selfie</span>`}
     </button>
@@ -1778,7 +1789,7 @@ function renderJoin(){
     <button type="submit" class="btn" id="join-submit" ${draft.name.trim() ? "" : "disabled"}>Eintragen und würfeln</button>
   </form>
   ${state.players.length ? `
-  <div class="stack" style="gap:12px">
+  <div class="stack jend" style="gap:12px">
     <span class="eyebrow">Schon dabei</span>
     <div class="seated">${state.players.map(p => `<div class="seat">${avatar(p,"m")}<span>${esc(p.name)}</span></div>`).join("")}</div>
   </div>` : ""}
