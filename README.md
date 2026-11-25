@@ -13,7 +13,11 @@ Das Partyspiel mit 6 Bechern und einem Würfel, direkt im Handy-Browser. Kein Do
 - Der goldene Becher zählt doppelt.
 - Wer nicht mehr mag, steigt aus. Niemand muss.
 
-## Neu in Version 4.2
+## Neu in Version 4.2.1
+- Eintragen: Nur beim ersten Spieler steht alles mittig, ab dem zweiten wieder oben wie gewohnt
+- „Wer bist du?“ bleibt neben dem Rückgängig-Knopf einzeilig
+
+## Version 4.2
 - Startbildschirm: Logo im schwarzen Kreis statt im großen Rechteck, darunter „6 Becher. 1 Würfel.“
 - iPhone: Abstand unter der Statusleiste richtet sich jetzt direkt nach ihrer Höhe. Auf iPhones mit Dynamic Island beginnt der Inhalt rund 28 Punkte tiefer, unterhalb des unscharfen Streifens (4.1 hatte den Abstand auf dem Handy nicht eingeschaltet)
 - Eintragen: Überschrift, Selfie, Name und Knopf stehen senkrecht in der Mitte, „Zurück“ bzw. „Alle sind drin“ bleibt unten
@@ -49,7 +53,7 @@ Das Partyspiel mit 6 Bechern und einem Würfel, direkt im Handy-Browser. Kein Do
 - Spiel, Eintragen und Startbildschirm lassen sich nicht mehr verschieben oder zoomen, wie in einer App
 
 ## Ältere Versionen
-[4.1](https://lionstone3010.github.io/sixcup/v4.1/) · [4.0](https://lionstone3010.github.io/sixcup/v4.0/) · [3.2.2](https://lionstone3010.github.io/sixcup/v3.2.2/) · [3.2.1](https://lionstone3010.github.io/sixcup/v3.2.1/) · [3.2](https://lionstone3010.github.io/sixcup/v3.2/) · [3.1](https://lionstone3010.github.io/sixcup/v3.1/) · [3.0](https://lionstone3010.github.io/sixcup/v3.0/) · noch unter altem Namen: [2.3](https://lionstone3010.github.io/trinkwuerfel/v2.3/) · [2.2](https://lionstone3010.github.io/trinkwuerfel/v2.2/) · [2.1](https://lionstone3010.github.io/trinkwuerfel/v2.1/) · [2.0](https://lionstone3010.github.io/trinkwuerfel/v2/) · [1.0](https://lionstone3010.github.io/trinkwuerfel/v1/)
+[4.2](https://lionstone3010.github.io/sixcup/v4.2/) · [4.1](https://lionstone3010.github.io/sixcup/v4.1/) · [4.0](https://lionstone3010.github.io/sixcup/v4.0/) · [3.2.2](https://lionstone3010.github.io/sixcup/v3.2.2/) · [3.2.1](https://lionstone3010.github.io/sixcup/v3.2.1/) · [3.2](https://lionstone3010.github.io/sixcup/v3.2/) · [3.1](https://lionstone3010.github.io/sixcup/v3.1/) · [3.0](https://lionstone3010.github.io/sixcup/v3.0/) · noch unter altem Namen: [2.3](https://lionstone3010.github.io/trinkwuerfel/v2.3/) · [2.2](https://lionstone3010.github.io/trinkwuerfel/v2.2/) · [2.1](https://lionstone3010.github.io/trinkwuerfel/v2.1/) · [2.0](https://lionstone3010.github.io/trinkwuerfel/v2/) · [1.0](https://lionstone3010.github.io/trinkwuerfel/v1/)
 
 - **3.2.2:** K.O.-Bildschirm groß und vollständig
 - **3.2.1:** Besucherzähler nur auf der Hauptadresse, Archive zählen nicht mit

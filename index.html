@@ -566,8 +566,15 @@ html:has(body.lock), body.lock{overflow:hidden;overscroll-behavior:none}
 .app.join .seat{flex:none}
 .app.join .seat .av{width:clamp(38px,6dvh,50px);height:clamp(38px,6dvh,50px)}
 .app.join .bottom{margin-top:auto}
-.app.join .join-head{margin-top:auto}
+/* Nur beim ersten Spieler steht alles mittig, danach oben wie gewohnt */
+.app.join.first .join-head{margin-top:auto}
 .app.join.jt .join-head,.app.join.jscroll .join-head{margin-top:0}
+/* Neben dem Rückgängig-Knopf bleibt „Wer bist du?“ einzeilig */
+.app.join .join-head h1{white-space:nowrap;font-size:min(clamp(36px,7.5dvh,64px), calc((100vw - 40px) / 6))}
+.app.join .join-head.has-undo h1{font-size:min(clamp(36px,7.5dvh,64px), calc((100vw - 104px) / 6))}
+.app.join.jt .join-head h1{font-size:min(clamp(30px,6dvh,48px), calc((100vw - 40px) / 6))}
+.app.join.jt .join-head.has-undo h1{font-size:min(clamp(30px,6dvh,48px), calc((100vw - 104px) / 6))}
+.app.join.jt2 .join-head h1{font-size:min(30px, calc((100vw - 104px) / 6))}
 @media (max-height:640px){ .app.join .bottom .note{display:none} }
 .app.join.jt{gap:10px;padding-block:10px 10px}
 .app.join.jt .join-head h1{font-size:clamp(30px,6dvh,48px)}
@@ -1342,7 +1349,7 @@ function render(){
   }
   delete app.dataset.pk;
   if (state.phase === "intro"){ setTheme(null); renderPage(); }
-  else if (state.phase === "join"){ setTheme(PALETTE[state.players.length % PALETTE.length]); renderJoin(); fitJoin(); }
+  else if (state.phase === "join"){ setTheme(PALETTE[state.players.length % PALETTE.length]); app.classList.toggle("first", !state.players.length); renderJoin(); fitJoin(); }
   else if (state.phase === "peek"){ setTheme(colorOf(P(state.peekQueue[0]))); renderPeek(); }
   else if (state.phase === "game"){ setTheme(colorOf(cur())); renderGame(); fitStage(); }
   else { setTheme(null); renderEnd(); saveRecap(); }
@@ -1758,7 +1765,7 @@ function renderJoin(){
   const from = state.handedFrom && P(state.handedFrom);
   const first = state.players.find(p => p.active);
   app.innerHTML = `
-  <div class="join-head">
+  <div class="join-head${undoStack.length ? " has-undo" : ""}">
     <div><span class="eyebrow">Spieler ${n}</span><h1>Wer bist du?</h1></div>
     ${undoStack.length ? `<button class="ib" data-act="undo" aria-label="Rückgängig">${ICON.undo}</button>` : ""}
   </div>
