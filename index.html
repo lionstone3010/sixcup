@@ -532,10 +532,6 @@ body.lock .app.jscroll,body.lock .app.hscroll{touch-action:pan-y}
 /* iPhone: Unter der Statusleiste liegt ein weicher Unschärfe-Streifen. Inhalt beginnt darunter.
    Der Zusatzabstand wächst mit der Statusleiste: Dynamic Island etwa 28px, ältere iPhones weniger, Android 0. */
 :root{--tx:calc(env(safe-area-inset-top, 0px) * 0.45)}
-/* iOS 26 legt unter die Statusleiste einen weichen Unschärfe-Verlauf über den Inhalt.
-   Ein fester, deckender Streifen in Hintergrundfarbe an der Oberkante wird vom System als Kopfleiste erkannt:
-   Dann nimmt iOS dessen Farbe statt der Unschärfe. Ohne Notch (Android, Desktop) ist er 0 hoch. */
-.topband{position:fixed;top:0;left:0;right:0;height:env(safe-area-inset-top, 0px);background:var(--bg);transition:background-color .5s ease;z-index:4;pointer-events:none}
 /* Ein-Screen-Layouts */
 html:has(body.lock), body.lock{overflow:hidden;overscroll-behavior:none}
 .app.game,.app.join,.app.peek{
@@ -650,7 +646,6 @@ html:has(body.lock), body.lock{overflow:hidden;overscroll-behavior:none}
 </style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<div class="topband" aria-hidden="true"></div>
 <div class="flash" id="flash"></div>
 <div class="app" id="app"></div>
 <div id="sheet-root"></div>
