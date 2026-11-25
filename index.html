@@ -425,9 +425,11 @@ body.lock .app.jscroll,body.lock .app.hscroll{touch-action:pan-y}
   min-height:0;overflow:hidden;gap:clamp(10px,1.9dvh,18px);padding-block:clamp(8px,1.6dvh,16px) clamp(8px,1.4dvh,14px)
 }
 .app.pg-home.hscroll{overflow-y:auto;height:auto;min-height:100%}
-.pg-home .brand{flex-direction:column;gap:2px;padding:clamp(10px,2.2dvh,20px) 0 clamp(10px,1.8dvh,16px);margin:0}
-.pg-home .brand .logo{width:auto;height:clamp(100px,17dvh,190px);max-width:78%}
-.brand .claim{color:rgba(255,255,255,.88);font-weight:700;font-size:clamp(14px,2dvh,17px);letter-spacing:.01em}
+.pg-home .brand{flex-direction:column;gap:clamp(6px,1.2dvh,12px);padding:4px 0 0;margin:0;background:none;border-radius:0}
+.pg-home .brand .disc{width:clamp(120px,19dvh,200px);height:clamp(120px,19dvh,200px);border-radius:50%;display:grid;place-items:center;flex:none;
+  background:radial-gradient(circle at 50% 40%,#22232c,#08080b 70%);box-shadow:0 12px 30px rgba(20,21,27,.26),0 0 0 5px #fff}
+.pg-home .brand .logo{width:86%;height:auto;max-width:none;margin-top:-3%}
+.brand .claim{color:var(--ink-soft);font-weight:700;font-size:clamp(14px,2dvh,17px);letter-spacing:.01em}
 .pg-home .lineup{padding:0 4px}
 .pg-home .lineup .g svg{width:auto;height:clamp(30px,5.2dvh,56px);max-width:86%}
 .menu-list{display:flex;flex-direction:column;gap:clamp(8px,1.4dvh,12px)}
@@ -459,9 +461,9 @@ body.lock .app.jscroll,body.lock .app.hscroll{touch-action:pan-y}
 .app.pg-home.hs2 .home-foot .privacy{display:none}
 .app.pg-home.hs2 .mrow{padding:10px 16px}
 .app.pg-home.hs2 .mrow b{font-size:19px}
-.app.pg-home.hs2 .pg-home .brand .logo,.app.pg-home.hs2 .brand .logo{height:clamp(96px,16dvh,150px)}
+.app.pg-home.hs2 .brand .disc{width:clamp(110px,18dvh,170px);height:clamp(110px,18dvh,170px)}
 .app.pg-home.hs3 .brand .claim{display:none}
-.app.pg-home.hs3 .brand .logo{height:clamp(80px,13dvh,120px)}
+.app.pg-home.hs3 .brand .disc{width:clamp(84px,13dvh,120px);height:clamp(84px,13dvh,120px);box-shadow:0 8px 18px rgba(20,21,27,.22),0 0 0 4px #fff}
 .app.pg-home.hs3 .mrow small{font-size:13px}
 .app.pg-home.hs3 .home-foot .credit{display:none}
 .app.pg-home.hs3 .footrow .ib{width:36px;height:36px}
@@ -527,8 +529,9 @@ body.lock .app.jscroll,body.lock .app.hscroll{touch-action:pan-y}
 .viewer .vnav{display:flex;justify-content:center;gap:18px}
 .verdict .word.long{font-size:clamp(30px,10.5vw,58px)}
 .app.game .verdict .word.long{font-size:min(clamp(30px,6.6dvh,58px),10.5vw)}
-/* iPhone: Unter der Statusleiste liegt ein weicher Unschärfe-Streifen. Inhalt beginnt darunter. */
-html.ios-edge{--tx:16px}
+/* iPhone: Unter der Statusleiste liegt ein weicher Unschärfe-Streifen. Inhalt beginnt darunter.
+   Der Zusatzabstand wächst mit der Statusleiste: Dynamic Island etwa 28px, ältere iPhones weniger, Android 0. */
+:root{--tx:calc(env(safe-area-inset-top, 0px) * 0.45)}
 /* Ein-Screen-Layouts */
 html:has(body.lock), body.lock{overflow:hidden;overscroll-behavior:none}
 .app.game,.app.join,.app.peek{
@@ -563,6 +566,8 @@ html:has(body.lock), body.lock{overflow:hidden;overscroll-behavior:none}
 .app.join .seat{flex:none}
 .app.join .seat .av{width:clamp(38px,6dvh,50px);height:clamp(38px,6dvh,50px)}
 .app.join .bottom{margin-top:auto}
+.app.join .join-head{margin-top:auto}
+.app.join.jt .join-head,.app.join.jscroll .join-head{margin-top:0}
 @media (max-height:640px){ .app.join .bottom .note{display:none} }
 .app.join.jt{gap:10px;padding-block:10px 10px}
 .app.join.jt .join-head h1{font-size:clamp(30px,6dvh,48px)}
@@ -1324,15 +1329,7 @@ function setTheme(color){
   // Leiste oben (Statusleiste/Browser) in der Farbe des Hintergrunds
   try { let m = document.querySelector('meta[name="theme-color"]'); if (!m){ m = document.createElement("meta"); m.name = "theme-color"; document.head.appendChild(m); } const c = color || "#f2f3f5"; if (m.content !== c) m.content = c; } catch(e){}
 }
-/* iPhone mit Notch/Dynamic Island: etwas mehr Abstand unter der Statusleiste */
-(function(){
-  try {
-    const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-    const probe = document.createElement("div"); probe.style.cssText = "position:fixed;top:0;height:0;padding-top:env(safe-area-inset-top,0px);visibility:hidden";
-    document.body.appendChild(probe); const top = parseFloat(getComputedStyle(probe).paddingTop) || 0; probe.remove();
-    if (ios && top > 20) document.documentElement.classList.add("ios-edge");
-  } catch(e){}
-})();
+
 function render(){
   if (headless) return;
   const pages = state.phase === "intro" || away;
@@ -1440,7 +1437,7 @@ function renderHome(){
   const resumeSub = state.phase === "end" ? "Endstand ansehen" : (ps.slice(0, 3).join(", ") + (ps.length > 3 ? " +" + (ps.length - 3) : "") + (state.rollId ? " · Wurf " + state.rollId : ""));
   paint(`
   ${movedNote ? `<div class="moved" role="status"><div><b>Trinkwürfel heißt jetzt SixCup.</b> Gleiches Spiel, neuer Name. Für das neue Symbol einfach neu zum Home-Bildschirm hinzufügen.</div><button class="ib" data-act="moved-ok" aria-label="Hinweis schließen">${ICON.close}</button></div>` : ""}
-  <div class="brand"><img class="logo" src="${LOGO_SRC}" alt="SixCup" width="720" height="602" decoding="async"><span class="claim">6 Becher. 1 Würfel.</span></div>
+  <div class="brand"><span class="disc"><img class="logo" src="${LOGO_SRC}" alt="SixCup" width="720" height="602" decoding="async"></span><span class="claim">6 Becher. 1 Würfel.</span></div>
   <div class="lineup">${[0,1,2,3,4,5].map(i => glassHTML(i, "", true)).join("")}</div>
   <nav class="menu-list" aria-label="Hauptmenü">
     ${rs ? `<button class="mrow primary" data-act="resume-game">${PI.resume}<span class="mt"><b>Spiel fortsetzen</b><small>${esc(resumeSub)}</small></span>${chev}</button>` : ""}
